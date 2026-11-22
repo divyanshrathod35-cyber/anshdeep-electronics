@@ -93,3 +93,39 @@ Implementation after research: preserve the bespoke local showroom identity, rep
 - Subsequent design/keyboard audit run returned mobile **90 performance**, LCP **3.183s**, desktop performance **99**, 15/15 browser tests, and automated WCAG 2.2 A/AA with no detected violations: https://github.com/divyanshrathod35-cyber/anshdeep-electronics/actions/runs/44979873532 .
 - The mobile LCP spread (roughly **2.19–3.18s**) shows meaningful laboratory variability. Do not assert the site has verified field LCP <=2.5s. Evaluate field p75 after release.
 - Both initial SEO scores of **92** came from Lighthouse's explicit `robots-txt` failure, because the missing file fell back to HTML. Adding `public/robots.txt` with valid Allow directives eliminates this known, non-competitive failure. Do not add unverified canonical/sitemap domain details until the authorized live domain is chosen.
+
+## November 22, 2026 — award-caliber implementation verification
+
+**Verification is internal, not an Awwwards or CSS Design Awards judging outcome.**
+
+- **Current implementation**: the true React storefront pre-renders into `dist/index.html` at build time and then hydrates. This improves initial content availability, SEO and no-JavaScript access without duplicating content for bots.
+- **Brand interaction**: three product families are a restrained editorial index, not three decorative cards. Selecting a family updates the visual and provides a direct route into its filtered catalogue. The finder/price-review enquiries remain real functional journeys.
+- **Art direction**: intentional white/obsidian contrasts, licensed editorial photographs and distinctive typesetting. Current imagery is context-only, not store-owned and not evidence of live stock.
+- **Resilience**: SVG product artwork is a fallback only after local image plus licensed CDN fail. This reduced pre-rendered HTML from 37,090 to 26,144 characters.
+
+### Evidence
+
+| Automated metric | Latest lab evidence |
+|---|---|
+| Mobile Lighthouse | Performance **95**, Accessibility **100**, Best Practices **100**, SEO **100** |
+| Desktop Lighthouse | Performance **99**, Accessibility **100**, Best Practices **100**, SEO **100** |
+| Mobile lab LCP | **2.643s**, near but **above** the 2.5s good threshold |
+| Desktop lab LCP | **0.868s** |
+| Node unit tests | **10/10 passing** |
+| Playwright E2E | **16/16 passing** |
+| Axe WCAG 2.2 A/AA | No violations detected by tested rules; manual assistive-technology checks still required |
+| Static HTML | Available without JavaScript; hydration exercised in browser tests |
+
+Source CI with screenshots and Lighthouse report artifacts: https://github.com/divyanshrathod35-cyber/anshdeep-electronics/actions/runs/44980120698
+
+The first verified pre-rendered version achieved **98 mobile Lighthouse performance** with **2.194s** lab LCP in another individual CI run (https://github.com/divyanshrathod35-cyber/anshdeep-electronics/actions/runs/44979516204), demonstrating that scores are variable on a shared CI runner. Treat all isolated scores as **lab samples**, not guaranteed device/network performance or field Core Web Vitals. No independent aesthetic/jury score has been measured.
+
+### Acceptance still outstanding
+
+1. Business-owner verification and approval of brand identity, store addresses/hours and public contact destinations, including WhatsApp Business.
+2. Licensed/owner-owned photos of actual showrooms and confirmed inventory. Do not portray current editorial context as the physical store or as specific stocked models.
+3. Written acceptance of genuine offers, warranty, exchange, EMI/financing and delivery terms before making such claims.
+4. A real deployed preview, external design critique, assisted-technology review and repeatable field Web Vitals at p75.
+5. Official awards require an actual external submission and judging outcome. Do not display award badges, fabricate jury scores or claim that ANSHDEEP has already won.
+
+**Draft PR stays open. No production release or merge was authorized.**
