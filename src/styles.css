@@ -530,3 +530,6 @@ p { line-height: 1.65; }
 
 /* Final axe contrast correction for advisory copy on porcelain surfaces. */
 .finder-note { color: #43566C; }
+
+/* Image-independent caption legibility: opaque black, no unreliable image-shadow contrast. */
+.product-index,.product-image-label { background: #0B0F19; color: #FFFFFF; text-shadow: none; padding: 5px 8px; }
