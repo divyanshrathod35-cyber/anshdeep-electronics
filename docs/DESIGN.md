@@ -64,4 +64,10 @@ The hero is a product-family selector that switches between original vector illu
 
 Test at 375px, 834px, 1440px; verify there is no horizontal overflow or orphan column. Check WCAG 2.2 AA contrast and keyboard focus behavior with automated + manual audits. Target LCP under 2.5s, CLS under 0.1 and INP under 200ms on representative mobile hardware, but never claim these metrics before measuring.
 
-No full Mobbin paid-screen access, real store photo license, SKU inventory feed, or confirmed WhatsApp Business destination was available during initial development. These are launch-blocking business-content decisions, not reasons to fabricate data.
+No full Mobbin paid-screen access, real store-owned photo library, SKU inventory feed, or confirmed WhatsApp Business destination was available during initial development. These are launch-blocking business-content decisions, not reasons to fabricate data.
+
+## Editorial photo system, Nov 22 research addendum
+
+The catalogue's category cards and signature hero now use editorial photos from individual Pexels free-photo listings, with the original vector drawings retained as resilient fallbacks. The published UI explicitly labels editorial imagery as not evidence of in-store inventory. Images are fetched from Pexels CDN and are not self-hosted yet. See `docs/IMAGE_SOURCES.md` for the individual provenance ledger and licence caveats.
+
+A store-owner verified SKU adapter is available in `src/data/verifiedProducts.ts`, but no unverified products ship. Its stock freshness gate rejects owner-confirmed stock older than 24 hours; this prevents a stale editorial list from masquerading as current availability. The store must still attest each entry with verifiable real data.
