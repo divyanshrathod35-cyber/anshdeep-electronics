@@ -62,3 +62,11 @@ The following must be completed before seeking competitive design recognition:
 5. Carry out a human visual audit against real winners with 375px, 834px, 1440px screenshots. Verify brand individuality; avoid copying copyrighted visuals.
 6. Establish meaningful enquiry conversion events after privacy review and track only real consented business metrics.
 7. Submit to Awwwards/CSSDA only after authorization and completion; do not claim nomination/award prior to a public record.
+
+## Initial lab baseline and subsequent font optimization
+
+The first GitHub Actions Lighthouse run used runtime Google Fonts and a custom desktop-sized viewport without the official desktop throttling preset. Results were mobile perf **92**, accessibility **96**, best practices **100**, SEO **92**, with LCP ~3.23s; desktop perf **60**, accessibility **100**, best practices **100**, SEO **92**, with LCP ~5.34s. Full source: https://github.com/divyanshrathod35-cyber/anshdeep-electronics/actions/runs/44978150352
+
+**Comparability caution:** those baseline numbers are one-off local Lighthouse lab measurements and the initial desktop throttling calibration was not the official desktop preset. Do not compare them as a clean before/after with subsequent desktop-preset scores.
+
+The follow-up change self-hosts variable DM Sans, Space Grotesk and JetBrains Mono via Fontsource, removing the Google Fonts stylesheet fetch. The lab script now applies desktop-specific throttling settings as well as desktop dimensions. The recorded JSON includes category scores and LCP/CLS/TBT diagnostics.

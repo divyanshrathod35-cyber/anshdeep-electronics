@@ -37,6 +37,18 @@ try {
           disabled: false,
         },
         throttlingMethod: 'simulate',
+        // Official desktop Lighthouse preset calibration: see
+        // https://github.com/GoogleChrome/lighthouse/blob/main/core/config/desktop-config.js
+        ...(variant.mobile ? {} : {
+          throttling: {
+            rttMs: 40,
+            throughputKbps: 10240,
+            cpuSlowdownMultiplier: 1,
+            requestLatencyMs: 0,
+            downloadThroughputKbps: 0,
+            uploadThroughputKbps: 0,
+          },
+        }),
       },
     };
     const run = await lighthouse(url, {
@@ -60,6 +72,11 @@ try {
     };
     await writeFile('quality-reports/lighthouse-' + variant.name + '.json', run.report);
     console.log(variant.name.toUpperCase() + ' LAB METRICS ' + JSON.stringify(results.variants[variant.name]));
+    console.log(variant.name.toUpperCase() + ' LAB DIAGNOSTIC ' + JSON.stringify({
+      lcpElement: run.lhr.audits['largest-contentful-paint-element']?.details?.items?.[0]?.node?.snippet ?? null,
+      renderBlocking: run.lhr.audits['render-blocking-resources']?.details?.items?.map(item => item.url)?.slice(0, 6) ?? [],
+      mainThreadMs: run.lhr.audits['mainthread-work-breakdown']?.numericValue ?? null,
+    }));
   }
   await writeFile('quality-reports/lab-summary.json', JSON.stringify(results, null, 2) + '\n');
   console.log('Local quality report: quality-reports/lab-summary.json');
