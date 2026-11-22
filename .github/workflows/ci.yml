@@ -20,3 +20,13 @@ jobs:
       - run: npm run test
       - run: npm run typecheck
       - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: storefront-browser-evidence
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7
