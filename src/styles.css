@@ -604,3 +604,31 @@ p { line-height: 1.65; }
   .hero-switcher button.is-active { padding-top: 11px; }
   .hero-switcher button > span:not(.arrow-glyph) { font-size: 11px; line-height: 1.35; }
 }
+
+/* The first HTML paint uses a compact letterform behind the real photograph.
+   Original vector illustration loads only if both authorized image sources fail.
+   Visible photography also works with JavaScript disabled. */
+.editorial-loading-mark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  color: #24374A;
+  background: #D8DEE6;
+  pointer-events: none;
+}
+.editorial-loading-mark strong {
+  font: 600 clamp(52px,8vw,104px)/1 var(--display);
+  letter-spacing: -.1em;
+}
+.editorial-loading-mark span {
+  font: 600 9px/1.5 var(--mono);
+  letter-spacing: .075em;
+}
+.editorial-frame--hero .editorial-loading-mark {
+  background: #263648;
+  color: #E4ECF6;
+}

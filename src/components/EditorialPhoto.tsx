@@ -25,11 +25,14 @@ export function EditorialPhoto({ kind, hero = false }: { kind: Artwork; hero?: b
 
   return (
     <div className={'editorial-frame' + (hero ? ' editorial-frame--hero' : '')} data-photo-id={photo.id}>
-      {(!loaded || source === 'illustration') && <ProductArt kind={kind} hero={hero} />}
+      {!loaded && source !== 'illustration' && (
+        <div className="editorial-loading-mark" aria-hidden="true"><strong>A.</strong><span>ANSHDEEP / VISUAL EDIT</span></div>
+      )}
+      {source === 'illustration' && <ProductArt kind={kind} hero={hero} />}
       {source !== 'illustration' && (
         <img
           key={photo.id + '-' + source}
-          className={'editorial-photo' + (!loaded ? ' editorial-photo--loading' : '')}
+          className="editorial-photo"
           src={src}
           srcSet={source === 'cdn' ? (
             editorialUrl(photo.id, 540) + ' 540w, ' +
