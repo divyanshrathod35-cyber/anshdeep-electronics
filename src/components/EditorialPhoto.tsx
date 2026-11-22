@@ -3,31 +3,49 @@ import type { Artwork } from '../data/catalog';
 import { editorialUrl, photos } from '../data/editorialImages';
 import { ProductArt } from './ProductArt';
 
+/**
+ * Local pinned photo first; original licensed CDN second; illustration last.
+ * This avoids third-party image requests during normal production browsing.
+ */
 export function EditorialPhoto({ kind, hero = false }: { kind: Artwork; hero?: boolean }) {
   const photo = photos[kind];
-  const [failed, setFailed] = useState(false);
+  const [source, setSource] = useState<'local' | 'cdn' | 'illustration'>('local');
   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => { setFailed(false); setLoaded(false); }, [kind]);
+  useEffect(() => { setSource('local'); setLoaded(false); }, [kind]);
+
+  const handleError = () => {
+    setLoaded(false);
+    setSource(current => current === 'local' ? 'cdn' : 'illustration');
+  };
+
+  const src = source === 'local'
+    ? '/editorial/' + photo.id + '.jpg'
+    : editorialUrl(photo.id, hero ? 1200 : 900);
 
   return (
     <div className={'editorial-frame' + (hero ? ' editorial-frame--hero' : '')} data-photo-id={photo.id}>
-      {(!loaded || failed) && <ProductArt kind={kind} hero={hero} />}
-      {!failed && (
+      {(!loaded || source === 'illustration') && <ProductArt kind={kind} hero={hero} />}
+      {source !== 'illustration' && (
         <img
-          className={"editorial-photo" + (!loaded ? " editorial-photo--loading" : "")}
-          src={editorialUrl(photo.id, hero ? 1200 : 900)}
-          srcSet={editorialUrl(photo.id, 540) + ' 540w, ' + editorialUrl(photo.id, 900) + ' 900w, ' + editorialUrl(photo.id, 1200) + ' 1200w'}
-          sizes={hero ? '(max-width: 930px) 100vw, 48vw' : '(max-width: 700px) 100vw, 50vw'}
+          key={photo.id + '-' + source}
+          className={'editorial-photo' + (!loaded ? ' editorial-photo--loading' : '')}
+          src={src}
+          srcSet={source === 'cdn' ? (
+            editorialUrl(photo.id, 540) + ' 540w, ' +
+            editorialUrl(photo.id, 900) + ' 900w, ' +
+            editorialUrl(photo.id, 1200) + ' 1200w'
+          ) : undefined}
+          sizes={source === 'cdn' ? (hero ? '(max-width: 930px) 100vw, 48vw' : '(max-width: 700px) 100vw, 50vw') : undefined}
           alt={photo.description}
-          width={hero ? 1200 : 900}
-          height={hero ? 864 : 648}
+          width={1200}
+          height={864}
           loading={hero ? 'eager' : 'lazy'}
           fetchPriority={hero ? 'high' : 'auto'}
           decoding="async"
           style={{ objectPosition: photo.position }}
           onLoad={() => setLoaded(true)}
-          onError={() => setFailed(true)}
+          onError={handleError}
         />
       )}
     </div>
