@@ -33,5 +33,6 @@ jobs:
             echo 'Editorial images already up to date'
           else
             git commit -m 'assets: pin and self-host licensed editorial photographs'
+            git pull --rebase origin feat/flagship-storefront-2026
             git push origin HEAD:feat/flagship-storefront-2026
           fi
