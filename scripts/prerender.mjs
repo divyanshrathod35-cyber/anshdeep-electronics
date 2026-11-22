@@ -32,7 +32,7 @@ try {
   for (const slug of ['privacy', 'terms', 'accessibility']) {
     const policy = legalPages[slug];
     const markup = renderToString(createElement(LegalPage, { page: slug }));
-    if (!markup.includes(policy.title) || !markup.includes('Call 99771 08780')) {
+    if (!markup.includes(policy.title) || !markup.includes('99771 08780')) {
       throw new Error('Incomplete legal page ' + slug);
     }
     const url = origin + '/' + slug + '/';
