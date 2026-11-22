@@ -86,3 +86,10 @@ Primary award records, not cloned layouts:
 - Chrome LCP guide: https://web.dev/articles/optimize-lcp/ . Early HTML rendering and avoiding render-blocking CSS/JS directly informs the ANSHDEEP static pre-rendering architecture.
 
 Implementation after research: preserve the bespoke local showroom identity, replace the three boxed hero buttons with an editorial chapter index, connect the chosen chapter to filtered product discovery, and preserve keyboard semantics. The same React tree is statically rendered at build time and hydrated in the browser; the initial HTML contains genuine product categories and navigation, reducing mobile LCP while retaining app interactivity. Do not claim awards until external juries provide them.
+
+## CI evidence addendum: static rendering and crawl-policy audit
+
+- Mobile Lighthouse lab result from the first prerender/hydration CI run was **98 performance**, with LCP **2.194s**, plus desktop performance **99**; 14/14 browser tests and 10/10 unit tests. This is one lab sample, not real-user field evidence: https://github.com/divyanshrathod35-cyber/anshdeep-electronics/actions/runs/44979516204 .
+- Subsequent design/keyboard audit run returned mobile **90 performance**, LCP **3.183s**, desktop performance **99**, 15/15 browser tests, and automated WCAG 2.2 A/AA with no detected violations: https://github.com/divyanshrathod35-cyber/anshdeep-electronics/actions/runs/44979873532 .
+- The mobile LCP spread (roughly **2.19–3.18s**) shows meaningful laboratory variability. Do not assert the site has verified field LCP <=2.5s. Evaluate field p75 after release.
+- Both initial SEO scores of **92** came from Lighthouse's explicit `robots-txt` failure, because the missing file fell back to HTML. Adding `public/robots.txt` with valid Allow directives eliminates this known, non-competitive failure. Do not add unverified canonical/sitemap domain details until the authorized live domain is chosen.

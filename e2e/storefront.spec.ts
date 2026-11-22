@@ -156,3 +156,13 @@ test('enquiry dialog restores keyboard focus to its originating control', async 
   await expect(dialog).toBeHidden();
   await expect(trigger).toBeFocused();
 });
+
+test('robots.txt is served as crawl policy rather than an SPA HTML fallback', async ({ request }) => {
+  const response = await request.get('/robots.txt');
+  expect(response.status()).toBe(200);
+  expect(response.headers()['content-type']).toMatch(/text\/plain/);
+  const text = await response.text();
+  expect(text).toContain('User-agent: *');
+  expect(text).toContain('Allow: /');
+  expect(text).not.toContain('<!doctype html>');
+});
