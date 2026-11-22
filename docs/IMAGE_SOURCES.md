@@ -7,8 +7,8 @@ Rights limitation: trademark, recognizable property/person, and third-party endo
 
 | Category | Pexels ID | Photographer | Source |
 |---|---|---|---|
-| AC | 16914846 | Mak_ jp | https://www.pexels.com/photo/air-conditioner-at-the-buildings-corner-16914846/ |
-| TV | 7587865 | Max Vakhtbovych | https://www.pexels.com/photo/a-spacious-living-room-with-couch-and-flat-screen-television-on-the-wall-7587865/ |
+| AC | 38788452 | NEOSiAM 18+ | https://www.pexels.com/photo/wall-mounted-air-conditioner-in-modern-interior-38788452/ |
+| TV | 14512055 | SCENE DESIGN | https://www.pexels.com/photo/living-room-with-a-large-tv-screen-and-wooden-cupboard-14512055/ |
 | Phones | 9403822 | Atharva Whaval | https://www.pexels.com/photo/close-up-shot-of-a-smartphone-9403822/ |
 | Refrigerator | 8805274 | Mike Jones | https://www.pexels.com/photo/a-woman-opening-a-fridge-8805274/ |
 | Washing machine | 8142971 | Max Vakhtbovych | https://www.pexels.com/photo/washing-machine-in-a-comfort-room-8142971/ |
