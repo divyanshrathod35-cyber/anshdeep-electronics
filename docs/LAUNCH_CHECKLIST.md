@@ -36,3 +36,15 @@ npm run preview
 
 ## Source versus claim
 The store's exact inventory, live pricing and offer eligibility are unknown. The site intentionally offers a quotation journey instead of simulated shopping-cart checkout or fake inventory.
+
+## Final release candidate | 22 November 2026
+
+- [x] /privacy/, /terms/, and /accessibility/ pages in semantic React and pre-rendered at build time.
+- [x] Direct links to the privacy policy beside the price-review form and inside the enquiry dialog.
+- [x] Information links in site footer and on each information page.
+- [x] Canonical URLs and sitemap for the verified Vercel alias.
+- [x] Filter-state explanation, one-tap clear filters, Escape-to-close mobile menu, mobile control sizing.
+- [ ] Verify live Vercel production deployment uses **the final tested commit**, rather than an older CLI deployment.
+- [ ] Store owner reviews contact email, branch accuracy, actual privacy and data retention policies, and final legal wording.
+- [ ] Real-device audit with Android Chrome, iPhone Safari and screen readers; Lighthouse alone is insufficient.
+- [ ] Store owner approves product photos, inventory and any financing or price-match promises before publication.
