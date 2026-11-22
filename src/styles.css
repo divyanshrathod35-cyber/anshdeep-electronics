@@ -101,10 +101,20 @@ p { line-height: 1.65; }
 .hero-image-stage::before { content: ''; position: absolute; left: 12%; right: 12%; height: 1px; top: 52%; background: #536476; opacity: .28; }
 .stage-coordinate { position: absolute; top: 30px; left: 30px; color: #D7E1EB; }
 .stage-vertical { position: absolute; right: 22px; top: 28px; writing-mode: vertical-rl; color: #AAB9C8; }
-.stage-display { width: 90%; margin: 0 auto 30px; animation: scene-appear .42s var(--ease) both; }
+.stage-display { position: absolute; inset: 0; width: 100%; margin: 0; animation: scene-appear .42s var(--ease) both; }
 @keyframes scene-appear { from { opacity: .4; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 .product-art { width: 100%; height: 100%; object-fit: contain; }
-.stage-display .product-art { max-height: 370px; filter: drop-shadow(0 22px 18px rgba(0,0,0,.3)); }
+.stage-display .product-art { width: 80%; height: 80%; margin: auto; filter: drop-shadow(0 22px 18px rgba(0,0,0,.3)); }
+.editorial-frame { position: absolute; inset: 0; overflow: hidden; display: grid; place-items: center; background: #D7DDE3; }
+.editorial-photo { display: block; width: 100%; height: 100%; object-fit: cover; }
+.editorial-frame--hero { background: #263648; }
+.editorial-frame--hero::after { position: absolute; inset: 15% 0 0; content: ""; pointer-events: none; background: linear-gradient(to bottom, transparent 12%, rgba(6,12,21,.16) 48%,rgba(6,12,21,.86) 96%); }
+.stage-info { z-index: 3; }
+.stage-coordinate,.stage-vertical { z-index: 3; text-shadow: 0 1px 12px rgba(0,0,0,.85); }
+.stage-coordinate { background: rgba(11,15,25,.65); padding: 6px 9px; }
+.product-image .editorial-frame:not(.editorial-frame--hero)::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg,rgba(11,15,25,.18),transparent 35%,transparent 72%,rgba(11,15,25,.3)); pointer-events: none; }
+.product-image-label,.product-index { position: relative; z-index: 2; color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
+.product-image .product-art { width: 75%; height: 75%; }
 .stage-info { position: absolute; bottom: 23px; left: 30px; right: 30px; padding-top: 18px; border-top: 1px solid #5A6676; display: flex; flex-direction: column; }
 .stage-info > span { color: #AAB8CA; margin-bottom: 8px; }
 .stage-info strong { font: 500 clamp(20px,2vw,28px)/1.15 var(--display); letter-spacing: -.04em; }
@@ -146,7 +156,7 @@ p { line-height: 1.65; }
 .product-card:nth-child(4n+3) .product-image { background: #E9EDEB; }
 .product-image svg { max-width: 390px; max-height: 270px; width: 90%; }
 .product-index { color: #55687C; position: absolute; top: 19px; left: 23px; }
-.product-image-label { position: absolute; bottom: 15px; right: 18px; font: 500 10px/1 var(--mono); color: #617187; }
+.product-image-label { position: absolute; bottom: 15px; right: 18px; font: 600 10px/1 var(--mono); color: #fff; text-align: right; max-width: calc(100% - 40px); }
 .product-details { padding: clamp(24px,3vw,38px); display: flex; flex-direction: column; }
 .product-eyebrow { color: #506984; margin-bottom: 13px; }
 .product-details h3 { font-size: clamp(22px,2.3vw,33px); line-height: 1.14; letter-spacing: -.04em; margin-bottom: 13px; }
@@ -339,7 +349,7 @@ p { line-height: 1.65; }
   .hero-facts { margin-top: 60px; }
   .hero-visual { padding-top: 0; }
   .hero-image-stage { min-height: 450px; }
-  .stage-display { width: 62%; }
+  .stage-display { width: 100%; }
   .section-heading--split { grid-template-columns: 1fr 1fr; }
   .finder-layout { grid-template-columns: 1fr; }
   .finder-intro { display: grid; grid-template-columns: 1fr 1fr; column-gap: 36px; }
@@ -382,7 +392,7 @@ p { line-height: 1.65; }
   .hero-facts strong { font-size: 9px; }
   .hero-facts small { font-size: 10px; }
   .hero-image-stage { min-height: 390px; }
-  .stage-display { width: 85%; margin-bottom: 42px; }
+  .stage-display { width: 100%; margin-bottom: 0; }
   .stage-info { bottom: 18px; left: 18px; right: 18px; }
   .stage-info strong { font-size: 20px; }
   .stage-vertical { right: 10px; }
