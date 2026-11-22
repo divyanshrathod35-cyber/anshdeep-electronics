@@ -18,7 +18,8 @@ Rights limitation: trademark, recognizable property/person, and third-party endo
 
 ## Rendering decisions
 
-- Browser receives `srcset` and responsive `sizes`; non-hero content is lazy-loaded and decoded asynchronously.
+- The browser prefers pinned, optimized JPEG assets at `/editorial/<photo-id>.jpg`, falling back to Pexels responsive CDN `srcset` if the local asset is unavailable. A reproducible Node script and GitHub Actions workflow can pin the source photos into the review branch.
+- Non-hero photos are lazy-loaded and decoded asynchronously.
 - Hero image is prioritized for loading, with dimensions declared to mitigate layout shift.
 - When the Pexels CDN is blocked, on-error swaps to original local vector artwork, keeping the site functional.
 - The visual is always editorial/contextual; it is not a representation of the precise model, stock condition, authorization or availability of ANSHDEEP.
