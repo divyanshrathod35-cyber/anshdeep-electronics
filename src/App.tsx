@@ -173,10 +173,10 @@ export default function App() {
             </div>
             <div className="catalog-toolbar">
               <div className="search-field"><span aria-hidden="true">⌕</span><label className="sr-only" htmlFor="catalog-search">Search product categories or brands</label><input id="catalog-search" type="search" autoComplete="off" placeholder="Search AC, Sony, washing machine…" value={search} onChange={event => setSearch(event.target.value)}/>{search && <button onClick={() => setSearch('')} type="button" aria-label="Clear search">×</button>}</div>
-              <div className="catalog-count">{visible.length.toString().padStart(2,'0')} COLLECTIONS</div>
+              <div className="catalog-count" aria-live="polite">{visible.length.toString().padStart(2,'0')} COLLECTIONS</div>
             </div>
             <div className="filter-list" role="group" aria-label="Filter collections by category">
-              {categories.map(item => <button type="button" key={item} className={'filter-button' + (item === activeCategory ? ' is-active' : '')} aria-pressed={item === activeCategory} onClick={() => setActiveCategory(item)}>{item}</button>)}
+              {categories.map(item => <button type="button" key={item} className={'filter-button' + (item === activeCategory ? ' is-active' : '')} aria-pressed={item === activeCategory} onClick={() => setActiveCategory(item)}>{item}<span className="filter-count" aria-hidden="true">{filterInterests(interests, item, search).length}</span></button>)}
             </div>
             {visible.length ? <div className="product-grid">{visible.map((item, index) => (
               <article key={item.id} className={'product-card' + (index === 0 && activeCategory === 'All' && !search ? ' product-card--feature' : '')}>
