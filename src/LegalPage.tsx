@@ -20,7 +20,7 @@ export const legalPages: Record<LegalRoute, LegalContent> = {
         'If you choose to call, email or use an enabled messaging service, the recipient showroom and the chosen provider may handle the details you send.'
       ] },
       { id: 'technical', heading: 'Hosting and technical records', text: [
-        'The current website uses locally hosted photographs and fonts. We have not intentionally installed advertising pixels or visitor-analytics scripts in this release.',
+        'The current website normally serves locally hosted photographs and fonts. If a local photo fails to load, its licensed image-host fallback may receive an image request. We have not intentionally installed advertising pixels or visitor-analytics scripts in this release.',
         'Hosting and network providers may process technical request information, including IP address, browser and device information, to serve and secure the site. Their privacy notices describe their own practices.'
       ] },
       { id: 'external', heading: 'When you open another service', text: [
