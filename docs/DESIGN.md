@@ -10,6 +10,7 @@ Status: research-led initial implementation, not approved for production launch.
 - Apple India retail: https://www.apple.com/in/store — personal assistance and an uncluttered retail journey.
 - Crutchfield TV guide: https://www.crutchfield.com/learn/how-to-choose-a-tv.html — practical buying guidance and relevant filtering.
 - B&H comparison: https://www.bhphotovideo.com/find/jsp/comparisonexplained.jsp — compare selection flow.
+- Baymard 2026 product-list research: https://baymard.com/blog/product-listing-page-plp-ux — showing result counts at the point of filtering reduces surprise; applied in the category row.
 - Dyson India: https://www.dyson.in/ — focused product presentation and clearly expressed financing details.
 
 ## Business evidence and claim policy
