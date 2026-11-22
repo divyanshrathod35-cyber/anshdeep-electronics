@@ -37,7 +37,7 @@ function useOverlay(open: boolean, onClose: () => void) {
     };
     document.addEventListener('keydown', onKey);
     return () => { window.clearTimeout(timer); document.removeEventListener('keydown', onKey); document.body.style.overflow = oldOverflow; previousFocus.current?.focus(); };
-  }, [open, onClose]);
+  }, [open]);
   return ref;
 }
 
@@ -117,7 +117,7 @@ export default function App() {
             <span className="wordmark-monogram" aria-hidden="true">A<span>.</span></span>
             <span className="wordmark-text"><strong>ANSHDEEP</strong><small>ELECTRONICS · RAJNANDGAON</small></span>
           </a>
-          <nav className={'main-nav' + (mobileMenu ? ' main-nav--open' : '')} aria-label="Main navigation">
+          <nav id="mobile-navigation" className={'main-nav' + (mobileMenu ? ' main-nav--open' : '')} aria-label="Main navigation">
             <a href="#catalog" onClick={() => setMobileMenu(false)}>Explore products</a>
             <a href="#finder" onClick={() => setMobileMenu(false)}>Find your fit</a>
             <a href="#finance" onClick={() => setMobileMenu(false)}>EMI guide</a>
@@ -128,7 +128,7 @@ export default function App() {
             <button className="menu-toggle" type="button" aria-expanded={mobileMenu} aria-controls="mobile-navigation" aria-label={mobileMenu ? 'Close menu' : 'Open menu'} onClick={() => setMobileMenu(value => !value)}><span/><span/></button>
           </div>
         </div>
-        <div id="mobile-navigation" className={'mobile-shortcuts' + (mobileMenu ? ' mobile-shortcuts--show' : '')}><a href="#catalog" onClick={() => setMobileMenu(false)}>Browse collections</a><a href="#showrooms" onClick={() => setMobileMenu(false)}>Get directions</a></div>
+        <div className={'mobile-shortcuts' + (mobileMenu ? ' mobile-shortcuts--show' : '')}><a href="#catalog" onClick={() => setMobileMenu(false)}>Browse collections</a><a href="#showrooms" onClick={() => setMobileMenu(false)}>Get directions</a></div>
       </header>
 
       <main id="main">
