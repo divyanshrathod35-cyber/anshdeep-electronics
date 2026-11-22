@@ -527,3 +527,6 @@ p { line-height: 1.65; }
 .range-markers { color: #40546D; }
 .filter-count { opacity: 1; }
 .interlude-inner > .kicker { color: #B5C9E0; }
+
+/* Final axe contrast correction for advisory copy on porcelain surfaces. */
+.finder-note { color: #43566C; }
