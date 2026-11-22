@@ -25,7 +25,7 @@ npm run preview
 
 1. Verify store ownership and signage, address, contact, branch relationship and current opening hours directly with owner.
 2. Confirm public WhatsApp Business number and set `VITE_STORE_WHATSAPP_NUMBER`. Do not point to an IFB shared support account.
-3. Obtain store-approved product photos and rights to use them, SKU-level price and availability feed, and brand-logo permissions. Editorial Pexels images are temporary and need replacement or optimized self-hosting before an official launch.
+3. Obtain store-approved product photos and rights to use them, SKU-level price and availability feed, and brand-logo permissions. Editorial Pexels images are temporary; pinned local copies can serve the site without routine third-party image requests. Replace them with owner-approved inventory photography before an official launch.
 4. Approve any no-cost EMI, price-match, exchange, free/same-day delivery and installation promises in writing, with conditions.
 5. Ensure privacy notice and final website domain; establish data/analytics consent if adding tracking.
 6. Perform tests at 375px / 834px / 1440px, keyboard, VoiceOver/NVDA, real device and reduced-motion modes.
