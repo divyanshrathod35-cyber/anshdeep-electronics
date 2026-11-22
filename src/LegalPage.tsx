@@ -93,7 +93,7 @@ export function LegalPage({ page }: { page: LegalRoute }) {
   return <div className="legal-site">
     <a className="skip-link" href="#main">Skip to content</a>
     <header className="legal-header"><div className="layout legal-header-inner">
-      <a href="/" className="wordmark" aria-label="Anshdeep Electronics home">
+      <a href="/" className="wordmark">
         <span className="wordmark-monogram" aria-hidden="true">A<span>.</span></span>
         <span className="wordmark-text"><strong>ANSHDEEP</strong><small>ELECTRONICS · RAJNANDGAON</small></span>
       </a>
