@@ -489,12 +489,10 @@ p { line-height: 1.65; }
 /* Curated sequence: short entrance reveals, never scroll-jacking. */
 @media (prefers-reduced-motion: no-preference) {
   .reveal-enabled [data-reveal] {
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 480ms var(--ease), transform 480ms var(--ease);
+    transform: translateY(12px);
+    transition: transform 400ms var(--ease);
   }
   .reveal-enabled [data-reveal].is-visible {
-    opacity: 1;
     transform: translateY(0);
   }
 }
@@ -520,3 +518,12 @@ p { line-height: 1.65; }
 @media (prefers-reduced-motion: reduce) {
   .reveal-enabled [data-reveal] { opacity: 1; transform: none; transition: none; }
 }
+
+/* AA contrast corrections from executable axe WCAG audit.
+   Small telemetry is deliberately darker, not 60%-opacity decoration. */
+.catalog-count { color: #40536C; }
+.brand-line > span { color: #445870; }
+.catalog-caption p { color: #46586E; }
+.range-markers { color: #40546D; }
+.filter-count { opacity: 1; }
+.interlude-inner > .kicker { color: #B5C9E0; }

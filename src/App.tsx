@@ -140,7 +140,7 @@ export default function App() {
       <div className="utility-bar"><div className="layout utility-inner"><span>VIP Road · Basantpur · Rajnandgaon</span><span className="utility-right">Visit the showroom. Explore with confidence. <a href={mapUrl(store.branches[0].address)} target="_blank" rel="noopener noreferrer">Directions <Arrow diagonal /></a></span></div></div>
       <header className="site-header">
         <div className="layout header-inner">
-          <a href="#top" className="wordmark" aria-label="Anshdeep Electronics home" onClick={() => setMobileMenu(false)}>
+          <a href="#top" className="wordmark" onClick={() => setMobileMenu(false)}>
             <span className="wordmark-monogram" aria-hidden="true">A<span>.</span></span>
             <span className="wordmark-text"><strong>ANSHDEEP</strong><small>ELECTRONICS · RAJNANDGAON</small></span>
           </a>
@@ -209,7 +209,7 @@ export default function App() {
               <article key={item.id} className={'product-card' + (index === 0 && activeCategory === 'All' && !search ? ' product-card--feature' : '')}>
                 <div className="product-image"><span className="product-index">{item.number} / 08</span><EditorialPhoto kind={item.artwork}/><span className="product-image-label">Editorial image · ask for live stock</span></div>
                 <div className="product-details"><p className="product-eyebrow">{item.eyebrow}</p><h3>{item.title}</h3><p>{item.description}</p><div className="brand-line"><span>BRANDS TO DISCUSS</span><small>{item.brands.join(' · ')}</small></div>
-                  <div className="product-actions"><button className="action-link" onClick={() => inquiryFor(item)}>Ask about options <Arrow /></button><button className={'shortlist-button' + (shortlist.includes(item.id) ? ' is-selected' : '')} aria-pressed={shortlist.includes(item.id)} aria-label={(shortlist.includes(item.id) ? 'Remove ' : 'Shortlist ') + item.title} onClick={() => toggleShortlist(item.id)} disabled={!shortlist.includes(item.id) && shortlist.length >= 3}>{shortlist.includes(item.id) ? '✓ Added' : '+ Compare'}</button></div>
+                  <div className="product-actions"><button className="action-link" onClick={() => inquiryFor(item)}>Ask about options <Arrow /></button><button className={'shortlist-button' + (shortlist.includes(item.id) ? ' is-selected' : '')} aria-pressed={shortlist.includes(item.id)} aria-label={(shortlist.includes(item.id) ? 'Added: remove from compare list, ' : 'Compare ') + item.title} onClick={() => toggleShortlist(item.id)} disabled={!shortlist.includes(item.id) && shortlist.length >= 3}>{shortlist.includes(item.id) ? '✓ Added' : '+ Compare'}</button></div>
                 </div>
               </article>
             ))}</div> : <div className="empty-state"><h3>No matching collections.</h3><p>Try a different brand or category.</p><button className="action-link" onClick={() => {setSearch('');setActiveCategory('All');}}>Reset filters <Arrow /></button></div>}

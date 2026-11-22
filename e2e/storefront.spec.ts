@@ -26,7 +26,7 @@ test('collection filtering and shortlist comparison work', async ({ page }) => {
   await page.goto('/');
   await page.locator('.filter-list').getByRole('button', { name: 'Cooling' }).click();
   await expect(page.locator('.product-card')).toHaveCount(1);
-  await page.getByRole('button', { name: 'Shortlist Inverter air conditioners' }).click();
+  await page.getByRole('button', { name: 'Compare Inverter air conditioners' }).click();
   await expect(page.locator('.compare-dock')).toContainText('1 / 3');
   await page.getByRole('button', { name: /Review shortlist/ }).click();
   await expect(page.getByRole('dialog', { name: /What matters when you compare/ })).toBeVisible();
@@ -97,7 +97,7 @@ test('reduced motion keeps scroll narratives readable', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.interlude-columns')).toBeVisible();
   const transition = await page.locator('.interlude-columns').evaluate(el => getComputedStyle(el).transitionDuration);
-  expect(transition).toMatch(/0(?:s|\.00001s|\.01ms)/);
+  expect(transition.split(',').every(value => Number.parseFloat(value) < 0.001)).toBe(true);
 });
 
 test('WCAG 2.2 A/AA automated audit of homepage and enquiry dialog', async ({ page }) => {
