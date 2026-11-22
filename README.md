@@ -12,7 +12,7 @@ Research-led, enquiry-first website for the Anshdeep Electronics showroom in Raj
 
 ## Stack
 
-React 19, TypeScript, Vite 6, Tailwind 3 with custom design tokens and stylesheet; no external backend or analytics. **The production build statically renders the actual React storefront into HTML and hydrates it in the browser**, so first-viewport content and core catalogue information are readable even without JavaScript. Product data and store locations live in the source, making the proof-of-concept easy to hand over.
+React 19, TypeScript, Vite 6 and a bespoke lightweight CSS design system; no external backend or analytics. **The production build statically renders the actual React storefront and the privacy, terms and accessibility pages into HTML and hydrates them in the browser**, so first-viewport content and core catalogue information are readable even without JavaScript. Product data and store locations live in the source, making the proof-of-concept easy to hand over.
 
 ## Run
 
@@ -49,8 +49,10 @@ The number must contain the country code and digits only. The quote panel then d
 ## Documentation
 
 - [Research-led design, tokens, source evidence and CRO rationale](docs/DESIGN.md)
+- [Global 2026 retail benchmarks and final release gates](docs/FINAL_RELEASE_BENCHMARK.md)
+- [Privacy policy](/privacy/) · [Terms](/terms/) · [Accessibility](/accessibility/) are public, statically rendered routes
 - [Functional verification and launch blockers](docs/LAUNCH_CHECKLIST.md)
 
 ## Publication
 
-**Do not launch as an official live site without store authorization and release QA.** Verify ownership, product content, prices, delivery and installation terms, branch hours, finance terms, WhatsApp routing, photo and logo licenses, domain, SEO, and privacy disclosures.
+**The technical release candidate is version 1.0.0-rc.1.** The already-created Vercel production alias must be redeployed at the tested release commit. Store-owner authorization, legal signoff and real-device QA are still required before representing the website as a fully owner-approved commercial release. Verify ownership, product content, prices, delivery and installation terms, branch hours, finance terms, WhatsApp routing, photo and logo licenses, domain, SEO, and privacy disclosures.
