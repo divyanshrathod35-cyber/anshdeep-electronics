@@ -1,9 +1,12 @@
+import { useId } from 'react';
 import type { Artwork } from '../data/catalog';
 
 interface Props { kind: Artwork; hero?: boolean; }
 export function ProductArt({ kind, hero = false }: Props) {
-  const gradient = 'metal-' + kind;
-  const screen = 'screen-' + kind;
+  const instance = useId().replace(/:/g, '');
+  const gradient = 'metal-' + instance;
+  const screen = 'screen-' + instance;
+  const shadow = 'shadow-' + instance;
   return (
     <svg className={'product-art' + (hero ? ' product-art--hero' : '')} viewBox="0 0 440 340" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
       <defs>
@@ -13,9 +16,9 @@ export function ProductArt({ kind, hero = false }: Props) {
         <linearGradient id={screen} x1="0" y1="0" x2="1" y2="1">
           <stop stopColor="#24435A"/><stop offset=".42" stopColor="#0B1423"/><stop offset="1" stopColor="#547684"/>
         </linearGradient>
-        <filter id="shadow-art" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="12"/></filter>
+        <filter id={shadow} x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="12"/></filter>
       </defs>
-      <ellipse cx="220" cy="298" rx="137" ry="15" fill="#152033" opacity=".13" filter="url(#shadow-art)"/>
+      <ellipse cx="220" cy="298" rx="137" ry="15" fill="#152033" opacity=".13" filter={'url(#'+shadow+')'}/>
       {kind === 'ac' && <>
         <rect x="52" y="88" width="336" height="144" rx="23" fill={'url(#'+gradient+')'} stroke="#A6B0BC"/>
         <path d="M71 183h298v28c0 8-6 14-14 14H85c-8 0-14-6-14-14v-28Z" fill="#C6CDD6"/>
