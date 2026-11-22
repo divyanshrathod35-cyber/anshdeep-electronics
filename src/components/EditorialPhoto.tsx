@@ -6,14 +6,16 @@ import { ProductArt } from './ProductArt';
 export function EditorialPhoto({ kind, hero = false }: { kind: Artwork; hero?: boolean }) {
   const photo = photos[kind];
   const [failed, setFailed] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => { setFailed(false); }, [kind]);
+  useEffect(() => { setFailed(false); setLoaded(false); }, [kind]);
 
   return (
     <div className={'editorial-frame' + (hero ? ' editorial-frame--hero' : '')} data-photo-id={photo.id}>
+      {(!loaded || failed) && <ProductArt kind={kind} hero={hero} />}
       {!failed && (
         <img
-          className="editorial-photo"
+          className={"editorial-photo" + (!loaded ? " editorial-photo--loading" : "")}
           src={editorialUrl(photo.id, hero ? 1200 : 900)}
           srcSet={editorialUrl(photo.id, 540) + ' 540w, ' + editorialUrl(photo.id, 900) + ' 900w, ' + editorialUrl(photo.id, 1200) + ' 1200w'}
           sizes={hero ? '(max-width: 930px) 100vw, 48vw' : '(max-width: 700px) 100vw, 50vw'}
@@ -24,10 +26,10 @@ export function EditorialPhoto({ kind, hero = false }: { kind: Artwork; hero?: b
           fetchPriority={hero ? 'high' : 'auto'}
           decoding="async"
           style={{ objectPosition: photo.position }}
+          onLoad={() => setLoaded(true)}
           onError={() => setFailed(true)}
         />
       )}
-      {failed && <ProductArt kind={kind} hero={hero} />}
     </div>
   );
 }
