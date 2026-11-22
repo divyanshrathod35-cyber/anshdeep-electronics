@@ -70,3 +70,9 @@ The first GitHub Actions Lighthouse run used runtime Google Fonts and a custom d
 **Comparability caution:** those baseline numbers are one-off local Lighthouse lab measurements and the initial desktop throttling calibration was not the official desktop preset. Do not compare them as a clean before/after with subsequent desktop-preset scores.
 
 The follow-up change self-hosts variable DM Sans, Space Grotesk and JetBrains Mono via Fontsource, removing the Google Fonts stylesheet fetch. The lab script now applies desktop-specific throttling settings as well as desktop dimensions. The recorded JSON includes category scores and LCP/CLS/TBT diagnostics.
+
+## Second calibration result and targeted mobile correction
+
+The official-desktop-calibrated run with self-hosted variable fonts (before the mobile hero-preload adjustment) measured Lighthouse **99 desktop performance** and **83 mobile performance**. Refer to https://github.com/divyanshrathod35-cyber/anshdeep-electronics/actions/runs/44978322701 . A subsequent run with a hero-photo preload measured **99 desktop / 82 mobile**, indicating that eager photo fetching alone did not improve the mobile critical path: https://github.com/divyanshrathod35-cyber/anshdeep-electronics/actions/runs/44978569038 .
+
+To avoid loading a largely below-the-fold editorial photograph before the mobile hero copy, the image preload is now constrained to screens >=701px. A Vite build-time HTML transform injects the hashed Space Grotesk Latin WOFF2 font URL as a same-origin critical font preload, so the browser discovers the display typeface earlier. This is an optimization hypothesis pending the next CI measurement, not an invented speed gain.
