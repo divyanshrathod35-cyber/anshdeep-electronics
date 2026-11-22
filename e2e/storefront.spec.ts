@@ -109,3 +109,10 @@ test('WCAG 2.2 A/AA automated audit of homepage and enquiry dialog', async ({ pa
   const drawer = await new AxeBuilder({ page }).withTags(tags).analyze();
   expect(drawer.violations.map(issue => ({ id: issue.id, impact: issue.impact, nodes: issue.nodes.map(n => n.target) }))).toEqual([]);
 });
+
+test('critical hero photograph is discoverable before React hydration', async ({ page }) => {
+  await page.goto('/');
+  const preload = page.locator('link[rel="preload"][as="image"]');
+  await expect(preload).toHaveAttribute('href','/editorial/14512055.jpg');
+  await expect(preload).toHaveAttribute('fetchpriority','high');
+});
