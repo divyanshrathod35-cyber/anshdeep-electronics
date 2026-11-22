@@ -202,3 +202,16 @@ test('touch users can change hero chapters without breaking vertically scrolling
   }, { x, y });
   await expect(page.getByText('Made for everyday living.')).toBeVisible();
 });
+
+test('showroom phone CTA has a guaranteed opaque high-contrast surface on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/');
+  const call = page.locator('.showroom-actions a.button--outline');
+  await call.scrollIntoViewIfNeeded();
+  const pair = await call.evaluate(el => {
+    const style = getComputedStyle(el);
+    return { color: style.color, background: style.backgroundColor };
+  });
+  expect(pair.color).toBe('rgb(15, 23, 42)');
+  expect(pair.background).toBe('rgb(255, 255, 255)');
+});

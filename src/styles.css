@@ -10,7 +10,9 @@
   src: url("@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2") format("woff2");
   font-style: normal;
   font-weight: 300 700;
-  font-display: swap;
+  /* Keep initial content visible and avoid a late LCP-resetting font swap
+     on slow first visits; cached visits use the bespoke display face. */
+  font-display: optional;
 }
 @font-face {
   font-family: "JetBrains Mono Variable";
@@ -669,4 +671,12 @@ p { line-height: 1.65; }
 .editorial-frame--hero .editorial-loading-mark {
   background: #263648;
   color: #E4ECF6;
+}
+
+/* Force an opaque high-contrast surface in the showroom's secondary CTA.
+   Transparent outlines can be misread against complex / offscreen backgrounds. */
+.showroom-actions a.button--outline {
+  background-color: #FFFFFF;
+  color: #0F172A;
+  border-color: #718096;
 }
