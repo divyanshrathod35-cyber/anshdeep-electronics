@@ -1,3 +1,4 @@
+import AxeBuilder from '@axe-core/playwright';
 import { test, expect } from '@playwright/test';
 
 for (const width of [375, 834, 1440]) {
@@ -97,4 +98,14 @@ test('reduced motion keeps scroll narratives readable', async ({ page }) => {
   await expect(page.locator('.interlude-columns')).toBeVisible();
   const transition = await page.locator('.interlude-columns').evaluate(el => getComputedStyle(el).transitionDuration);
   expect(transition).toMatch(/0(?:s|\.00001s|\.01ms)/);
+});
+
+test('WCAG 2.2 A/AA automated audit of homepage and enquiry dialog', async ({ page }) => {
+  await page.goto('/');
+  const tags = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
+  const home = await new AxeBuilder({ page }).withTags(tags).analyze();
+  expect(home.violations.map(issue => ({ id: issue.id, impact: issue.impact, nodes: issue.nodes.map(n => n.target) }))).toEqual([]);
+  await page.getByRole('button', { name: /Ask for a showroom quote/i }).click();
+  const drawer = await new AxeBuilder({ page }).withTags(tags).analyze();
+  expect(drawer.violations.map(issue => ({ id: issue.id, impact: issue.impact, nodes: issue.nodes.map(n => n.target) }))).toEqual([]);
 });

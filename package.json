@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "audit:lab": "node scripts/lighthouse-benchmark.mjs"
   },
   "dependencies": {
     "react": "^19.2.0",
@@ -20,6 +21,9 @@
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^4.7.0",
     "@playwright/test": "^1.57.0",
+    "@axe-core/playwright": "^4.11.0",
+    "chrome-launcher": "^1.2.1",
+    "lighthouse": "^12.8.2",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
