@@ -63,8 +63,14 @@ test('licensed editorial image falls back to the original vector if image CDN is
   await page.route('**/editorial/*.jpg', route => route.abort());
   await page.route('https://images.pexels.com/**', route => route.abort());
   await page.goto('/');
-  await expect(page.locator('.editorial-frame--hero svg')).toBeVisible();
-  await expect(page.locator('.product-card').first().locator('.editorial-frame svg')).toBeVisible();
+  // Lazy images intentionally do not load until near the viewport.
+  // Scroll each into view so the simulated network failures are exercised.
+  const hero = page.locator('.editorial-frame--hero');
+  await hero.scrollIntoViewIfNeeded();
+  await expect(hero.locator('svg')).toBeVisible();
+  const firstCard = page.locator('.product-card').first().locator('.editorial-frame');
+  await firstCard.scrollIntoViewIfNeeded();
+  await expect(firstCard.locator('svg')).toBeVisible();
   await expect(page.getByText('Current showroom selections')).toHaveCount(0);
 });
 
