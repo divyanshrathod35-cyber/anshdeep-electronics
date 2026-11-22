@@ -533,3 +533,26 @@ p { line-height: 1.65; }
 
 /* Image-independent caption legibility: opaque black, no unreliable image-shadow contrast. */
 .product-index,.product-image-label { background: #0B0F19; color: #FFFFFF; text-shadow: none; padding: 5px 8px; }
+
+/* Editorial product selector: the active product becomes a useful route to the catalogue. */
+.stage-explore {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  padding: 8px 0 8px;
+  margin-top: 8px;
+  min-height: 44px;
+  color: #FFF;
+  font-size: 12px;
+  font-weight: 700;
+  border-bottom: 1px solid #D2DEEF;
+  text-align: left;
+}
+.stage-explore:hover { color: #DCEAFF; border-color: #DCEAFF; }
+@media (max-width: 700px) {
+  .stage-info { bottom: 11px; padding-top: 11px; }
+  .stage-info > span { margin-bottom: 3px; }
+  .stage-info p { margin-top: 5px; }
+  .stage-explore { margin-top: 3px; min-height: 40px; }
+}

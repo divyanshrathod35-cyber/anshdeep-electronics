@@ -95,6 +95,14 @@ export default function App() {
   const [branch, setBranch] = useState<'vip' | 'ge'>('vip');
 
   const activeHero = heroOptions.find(option => option.id === heroChoice)!;
+  const exploreHeroFamily = () => {
+    const next: Category =
+      heroChoice === 'viewing' ? 'Televisions' :
+      heroChoice === 'cooling' ? 'Cooling' : 'Home appliances';
+    setActiveCategory(next);
+    setSearch('');
+    document.getElementById('catalog')?.scrollIntoView({ block: 'start' });
+  };
   const visible = useMemo(() => filterInterests(interests, activeCategory, search), [activeCategory, search]);
   const selected = interests.filter(item => shortlist.includes(item.id));
   const ac = suggestAc(roomArea, roomExposure, roomHours);
@@ -182,7 +190,11 @@ export default function App() {
                 <div className="stage-display" key={activeHero.id}>
                   <EditorialPhoto kind={activeHero.art} hero />
                 </div>
-                <div className="stage-info" aria-live="polite"><span>SELECTED INTEREST</span><strong>{activeHero.title}</strong><p>{activeHero.text}</p></div>
+                <div className="stage-info" aria-live="polite">
+                  <span>SELECTED INTEREST / {heroOptions.findIndex(item => item.id === heroChoice) + 1} OF 3</span>
+                  <strong>{activeHero.title}</strong><p>{activeHero.text}</p>
+                  <button className="stage-explore" onClick={exploreHeroFamily}>Explore {activeHero.label.toLowerCase()} <Arrow diagonal /></button>
+                </div>
               </div>
               <div className="hero-switcher" role="group" aria-label="Explore product families">
                 {heroOptions.map((item, index) => <button type="button" key={item.id} className={heroChoice === item.id ? 'is-active' : ''} aria-pressed={heroChoice === item.id} onClick={() => setHeroChoice(item.id)}><small>0{index+1}</small><span>{item.label}</span><Arrow /></button>)}

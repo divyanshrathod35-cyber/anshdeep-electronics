@@ -116,3 +116,31 @@ test('critical hero photograph is discoverable before React hydration', async ({
   await expect(preload).toHaveAttribute('href','/editorial/14512055.jpg');
   await expect(preload).toHaveAttribute('fetchpriority','high');
 });
+
+test('the home page is pre-rendered and readable without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const page = await context.newPage();
+    await page.goto('/');
+    await expect(page.locator('#root')).toHaveAttribute('data-prerendered', 'true');
+    await expect(page.getByRole('heading', { name: /Good technology/ })).toBeVisible();
+    await expect(page.locator('.product-card')).toHaveCount(8);
+    await expect(page.getByRole('link', { name: /Open Google Maps/ })).toHaveAttribute('href', /google.com\/maps/);
+  } finally {
+    await context.close();
+  }
+});
+
+test('hero selector advances to the chosen product category after hydration', async ({ page }) => {
+  const consoleErrors: string[] = [];
+  page.on('console', (msg) => {
+    if (msg.type() === 'error' && /hydration|mismatch/i.test(msg.text())) consoleErrors.push(msg.text());
+  });
+  await page.goto('/');
+  await page.getByRole('group', { name: 'Explore product families' }).getByRole('button', { name: /Cooling/ }).click();
+  await expect(page.getByText('Comfort, correctly sized.')).toBeVisible();
+  await page.getByRole('button', { name: /Explore cooling/ }).click();
+  await expect(page.locator('.filter-list').getByRole('button', { name: /^Cooling/ })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('.product-card')).toHaveCount(1);
+  expect(consoleErrors).toEqual([]);
+});
