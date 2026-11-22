@@ -68,6 +68,6 @@ No full Mobbin paid-screen access, real store-owned photo library, SKU inventory
 
 ## Editorial photo system, Nov 22 research addendum
 
-The catalogue's category cards and signature hero now use editorial photos from individual Pexels free-photo listings, with the original vector drawings retained as resilient fallbacks. The published UI explicitly labels editorial imagery as not evidence of in-store inventory. Images are fetched from Pexels CDN and are not self-hosted yet. See `docs/IMAGE_SOURCES.md` for the individual provenance ledger and licence caveats.
+The catalogue's category cards and signature hero now use editorial photos from individual Pexels free-photo listings, with the original vector drawings retained as resilient fallbacks. The published UI explicitly labels editorial imagery as not evidence of in-store inventory. Pinned local JPEGs are now preferred; the Pexels CDN is retained only as a fallback if an authorized local image is missing. See the dedicated image-source ledger and sync workflow for provenance. See `docs/IMAGE_SOURCES.md` for the individual provenance ledger and licence caveats.
 
 A store-owner verified SKU adapter is available in `src/data/verifiedProducts.ts`, but no unverified products ship. Its stock freshness gate rejects owner-confirmed stock older than 24 hours; this prevents a stale editorial list from masquerading as current availability. The store must still attest each entry with verifiable real data.
