@@ -215,3 +215,81 @@ test('showroom phone CTA has a guaranteed opaque high-contrast surface on mobile
   expect(pair.color).toBe('rgb(15, 23, 42)');
   expect(pair.background).toBe('rgb(255, 255, 255)');
 });
+
+for (const width of [320, 360, 390, 430, 700, 768, 1024]) {
+  test('final release has no document overflow on ' + width + 'px screens', async ({ page }, testInfo) => {
+    await page.setViewportSize({ width, height: 850 });
+    await page.goto('/');
+    await expect(page.getByRole('heading', { name: /Good technology/ })).toBeVisible();
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(overflow, 'Horizontal page overflow at ' + width).toBeLessThanOrEqual(1);
+    if ([320,390,768].includes(width)) {
+      await page.screenshot({ path: testInfo.outputPath('release-' + width + '.png'), fullPage: true });
+    }
+  });
+}
+
+test('mobile filters expose applied scope and let shoppers reset in one tap', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 780 });
+  await page.goto('/#catalog');
+  await page.locator('.filter-list').getByRole('button', { name: /^Cooling/ }).click();
+  await expect(page.locator('.filter-status')).toContainText('1 collection in cooling');
+  await expect(page.locator('.product-card')).toHaveCount(1);
+  await page.locator('.filter-status').getByRole('button', { name: /Clear filters/ }).click();
+  await expect(page.locator('.product-card')).toHaveCount(8);
+  await expect(page.locator('.filter-status')).toContainText('8 collections to explore');
+});
+
+test('mobile menu supports Escape and updates expanded state', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const menu = page.getByRole('button', { name: 'Open menu' });
+  await menu.click();
+  await expect(page.getByRole('button', { name: 'Close menu' })).toHaveAttribute('aria-expanded', 'true');
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: 'Open menu' })).toHaveAttribute('aria-expanded', 'false');
+});
+
+for (const route of ['privacy','terms','accessibility'] as const) {
+  test(route + ' is a crawlable, responsive, accessible, independently routable policy page', async ({ page, request, browser }, testInfo) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    const response = await request.get('/' + route + '/');
+    expect(response.status()).toBe(200);
+    const html = await response.text();
+    expect(html).toContain('data-prerendered="true"');
+    expect(html).toContain('https://anshdeep-electronics.vercel.app/' + route + '/');
+    expect(html).not.toContain('href="/editorial/14512055.jpg"');
+    await page.goto('/' + route + '/');
+    await expect(page.locator('.legal-article')).toHaveCount(route === 'privacy' ? 6 : route === 'terms' ? 5 : 4);
+    await expect(page.locator('.legal-contact-actions a[href^="tel:"]')).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
+    const report = await new AxeBuilder({ page }).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze();
+    expect(report.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))).toEqual([]);
+    await page.screenshot({ path: testInfo.outputPath('policy-' + route + '.png'), fullPage: true });
+    const noJs = await browser.newContext({javaScriptEnabled:false});
+    try {
+      const read = await noJs.newPage();
+      await read.goto('/' + route + '/');
+      await expect(read.locator('#root')).toHaveAttribute('data-prerendered','true');
+      await expect(read.locator('main h1')).toBeVisible();
+    } finally { await noJs.close(); }
+  });
+}
+
+test('privacy and information links are visible at important enquiry decisions', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.site-footer').getByRole('link',{ name: /Privacy policy/ })).toHaveAttribute('href','/privacy/');
+  await expect(page.locator('.site-footer').getByRole('link',{ name: /Terms of use/ })).toHaveAttribute('href','/terms/');
+  await expect(page.locator('.site-footer').getByRole('link',{ name: /Accessibility/ })).toHaveAttribute('href','/accessibility/');
+  await expect(page.locator('.review-form').getByRole('link',{name:/privacy policy/})).toHaveAttribute('href','/privacy/');
+  await page.getByRole('button',{name:/Ask for a showroom quote/}).click();
+  await expect(page.getByRole('dialog').getByRole('link',{name:/privacy policy/})).toHaveAttribute('href','/privacy/');
+});
+
+test('the sitemap declares all customer-facing static routes',async ({request})=>{
+  const response=await request.get('/sitemap.xml');
+  expect(response.status()).toBe(200);
+  expect(await response.text()).toContain('<loc>https://anshdeep-electronics.vercel.app/privacy/</loc>');
+  const robots=await request.get('/robots.txt');
+  expect(await robots.text()).toContain('Sitemap: https://anshdeep-electronics.vercel.app/sitemap.xml');
+});
