@@ -66,3 +66,17 @@ test('licensed editorial image falls back to the original vector if image CDN is
   await expect(page.locator('.product-card').first().locator('.editorial-frame svg')).toBeVisible();
   await expect(page.getByText('Current showroom selections')).toHaveCount(0);
 });
+
+test('all eight curated editorial images are self-hosted and the hero loads locally', async ({ request, page }) => {
+  const ids = [38788452, 14512055, 9403822, 8805274, 8142971, 8054764, 15670390, 25636747];
+  for (const id of ids) {
+    const response = await request.get('/editorial/' + id + '.jpg');
+    expect(response.status(), 'Pinned image ' + id + ' should exist').toBe(200);
+    expect(response.headers()['content-type']).toContain('image/jpeg');
+    expect((await response.body()).byteLength).toBeGreaterThan(4096);
+  }
+  await page.goto('/');
+  const hero = page.locator('.editorial-frame--hero img');
+  await expect(hero).toHaveAttribute('src', '/editorial/14512055.jpg');
+  await expect.poll(() => hero.evaluate((image: HTMLImageElement) => image.naturalWidth), { timeout: 10000 }).toBeGreaterThan(0);
+});
