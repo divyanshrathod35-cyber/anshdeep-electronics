@@ -28,7 +28,7 @@ The site runs locally at the URL printed by Vite. Built assets are in `dist/`.
 
 ## Photography and source tracing
 
-Category photography is loaded responsively from the Pexels CDN. Each image's photographer, photo page and composition are recorded in `src/data/editorialImages.ts`; the commercial-use licence is documented in `docs/IMAGE_SOURCES.md`. If the CDN is unavailable, original vector fallback artwork appears. Before a public launch, self-host optimized assets (with appropriate rights), verify depicted trademarks, and check the privacy impact of third-party image requests.
+The website uses optimized, pinned, local editorial JPEG files under `public/editorial/` where available, with licensed CDN and original vector fallbacks. The reproducible pinning command is `node --experimental-strip-types scripts/sync-editorial-assets.mjs`; an isolated GitHub Actions asset-pinning workflow can commit these photographs to the review branch. Each photo's source and photographer are recorded in `src/data/editorialImages.ts` and `docs/IMAGE_SOURCES.md`. Before launch, confirm depicted trademark rights and replace these context photos with owner-approved product and showroom imagery.
 
 ## Store-approved SKU content
 
