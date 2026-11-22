@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
-import { ProductArt } from './components/ProductArt';
+import { EditorialPhoto } from './components/EditorialPhoto';
 import { categories, filterInterests, interests, type Category, type Interest, type Artwork } from './data/catalog';
 import { store, mapUrl } from './config/storeConfig';
 import { emiIllustration, indianRupees, isIndianMobile, safeMessage, suggestAc, suggestLaundry, suggestTv, whatsappUrl, type Exposure } from './lib/shopping';
@@ -43,7 +43,7 @@ function useOverlay(open: boolean, onClose: () => void) {
 
 export default function App() {
   const [mobileMenu, setMobileMenu] = useState(false);
-  const [heroChoice, setHeroChoice] = useState<HeroChoice>('cooling');
+  const [heroChoice, setHeroChoice] = useState<HeroChoice>('viewing');
   const [activeCategory, setActiveCategory] = useState<Category>('All');
   const [search, setSearch] = useState('');
   const [shortlist, setShortlist] = useState<string[]>([]);
@@ -153,7 +153,7 @@ export default function App() {
                 <span className="stage-coordinate">A / 01</span>
                 <span className="stage-vertical">THE SHOWROOM EDIT · 2026</span>
                 <div className="stage-display" key={activeHero.id}>
-                  <ProductArt kind={activeHero.art} hero />
+                  <EditorialPhoto kind={activeHero.art} hero />
                 </div>
                 <div className="stage-info"><span>SELECTED INTEREST</span><strong>{activeHero.title}</strong><p>{activeHero.text}</p></div>
               </div>
@@ -180,13 +180,13 @@ export default function App() {
             </div>
             {visible.length ? <div className="product-grid">{visible.map((item, index) => (
               <article key={item.id} className={'product-card' + (index === 0 && activeCategory === 'All' && !search ? ' product-card--feature' : '')}>
-                <div className="product-image"><span className="product-index">{item.number} / 08</span><ProductArt kind={item.artwork}/><span className="product-image-label">Illustrative visual</span></div>
+                <div className="product-image"><span className="product-index">{item.number} / 08</span><EditorialPhoto kind={item.artwork}/><span className="product-image-label">Editorial image · ask for live stock</span></div>
                 <div className="product-details"><p className="product-eyebrow">{item.eyebrow}</p><h3>{item.title}</h3><p>{item.description}</p><div className="brand-line"><span>BRANDS TO DISCUSS</span><small>{item.brands.join(' · ')}</small></div>
                   <div className="product-actions"><button className="action-link" onClick={() => inquiryFor(item)}>Ask about options <Arrow /></button><button className={'shortlist-button' + (shortlist.includes(item.id) ? ' is-selected' : '')} aria-pressed={shortlist.includes(item.id)} aria-label={(shortlist.includes(item.id) ? 'Remove ' : 'Shortlist ') + item.title} onClick={() => toggleShortlist(item.id)} disabled={!shortlist.includes(item.id) && shortlist.length >= 3}>{shortlist.includes(item.id) ? '✓ Added' : '+ Compare'}</button></div>
                 </div>
               </article>
             ))}</div> : <div className="empty-state"><h3>No matching collections.</h3><p>Try a different brand or category.</p><button className="action-link" onClick={() => {setSearch('');setActiveCategory('All');}}>Reset filters <Arrow /></button></div>}
-            <div className="catalog-caption"><span>SELECTED FOR THE WAY YOU SHOP</span><p>Category and brand examples are buying guides, not a representation of current showroom stock.</p></div>
+            <div className="catalog-caption"><span>SELECTED FOR THE WAY YOU SHOP</span><p>Editorial photographs and brand examples are for buying guidance only, not live models or verified stock.</p></div>
           </div>
         </section>
 
