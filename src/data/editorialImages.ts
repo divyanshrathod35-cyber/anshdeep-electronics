@@ -26,23 +26,23 @@ export const photos: Record<Artwork, EditorialPhoto> = {
   },
   tv: {
     id: 7587865,
-    description: 'Modern living room with a wall-mounted flat-screen television',
+    description: 'A modern room featuring a wall-mounted flat-screen television',
     page: 'https://www.pexels.com/photo/a-spacious-living-room-with-couch-and-flat-screen-television-on-the-wall-7587865/',
-    photographer: 'Pexels contributor; see source listing',
+    photographer: 'Max Vakhtbovych',
     position: 'center 47%',
   },
   phone: {
     id: 9403822,
     description: 'A modern smartphone against a minimal background',
     page: 'https://www.pexels.com/photo/close-up-shot-of-a-smartphone-9403822/',
-    photographer: 'Pexels contributor; see source listing',
+    photographer: 'Atharva Whaval',
     position: 'center 42%',
   },
   fridge: {
     id: 8805274,
     description: 'Open refrigerator in a contemporary kitchen',
     page: 'https://www.pexels.com/photo/a-woman-opening-a-fridge-8805274/',
-    photographer: 'Pexels contributor; see source listing',
+    photographer: 'Mike Jones',
     position: 'center 46%',
   },
   washer: {
@@ -70,7 +70,7 @@ export const photos: Record<Artwork, EditorialPhoto> = {
     id: 25636747,
     description: 'A modern laptop on a minimalist wooden desk',
     page: 'https://www.pexels.com/photo/laptop-on-a-wooden-desk-25636747/',
-    photographer: 'Pexels contributor; see source listing',
+    photographer: 'Jakub Zerdzicki',
     position: 'center 55%',
   },
 };
