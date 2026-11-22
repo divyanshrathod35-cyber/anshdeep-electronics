@@ -80,3 +80,21 @@ test('all eight curated editorial images are self-hosted and the hero loads loca
   await expect(hero).toHaveAttribute('src', '/editorial/14512055.jpg');
   await expect.poll(() => hero.evaluate((image: HTMLImageElement) => image.naturalWidth), { timeout: 10000 }).toBeGreaterThan(0);
 });
+
+test('mobile contextual enquiry appears after browsing and can be opened', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/');
+  await expect(page.getByRole('region', { name: 'Quick showroom enquiry' })).toHaveCount(0);
+  await page.evaluate(() => window.scrollTo(0, 850));
+  await expect(page.getByRole('region', { name: 'Quick showroom enquiry' })).toBeVisible();
+  await page.getByRole('button', { name: 'Ask the store' }).click();
+  await expect(page.getByRole('dialog', { name: 'Ready to ask?' })).toBeVisible();
+});
+
+test('reduced motion keeps scroll narratives readable', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await expect(page.locator('.interlude-columns')).toBeVisible();
+  const transition = await page.locator('.interlude-columns').evaluate(el => getComputedStyle(el).transitionDuration);
+  expect(transition).toMatch(/0(?:s|\.00001s|\.01ms)/);
+});

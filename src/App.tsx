@@ -44,6 +44,31 @@ function useOverlay(open: boolean, onClose: () => void) {
 
 export default function App() {
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [mobileEnquiryVisible, setMobileEnquiryVisible] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setMobileEnquiryVisible(window.scrollY > 520);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  useEffect(() => {
+    if (!window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    const targets = [...document.querySelectorAll<HTMLElement>('[data-reveal]')];
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -35px 0px', threshold: 0.08 });
+    targets.forEach(target => observer.observe(target));
+    document.documentElement.classList.add('reveal-enabled');
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove('reveal-enabled');
+    };
+  }, []);
   const [heroChoice, setHeroChoice] = useState<HeroChoice>('viewing');
   const [activeCategory, setActiveCategory] = useState<Category>('All');
   const [search, setSearch] = useState('');
@@ -150,7 +175,7 @@ export default function App() {
                 <span><strong>BUY WITH CLARITY</strong><small>Ask about pricing & warranty</small></span>
               </div>
             </div>
-            <div className="hero-visual" aria-label="Illustrative electronics showcase">
+            <div className="hero-visual">
               <div className="hero-image-stage">
                 <span className="stage-coordinate">A / 01</span>
                 <span className="stage-vertical">THE SHOWROOM EDIT · 2026</span>
@@ -169,7 +194,7 @@ export default function App() {
 
         <section className="section intro-section" id="catalog">
           <div className="layout">
-            <div className="section-heading section-heading--split">
+            <div className="section-heading section-heading--split" data-reveal>
               <div><span className="kicker">01 / DISCOVER</span><h2>Find something<br/><em>worth bringing home.</em></h2></div>
               <p>Browse by what you need, not by a hundred confusing model numbers. Product availability and offers are confirmed directly by the store.</p>
             </div>
@@ -208,7 +233,7 @@ export default function App() {
           <div className="layout interlude-inner">
             <span className="kicker">THE ANSHDEEP APPROACH</span>
             <h2>Less guessing.<br/><em>More getting it right.</em></h2>
-            <div className="interlude-columns">
+            <div className="interlude-columns" data-reveal>
               <div><span>01</span><h3>Start with your needs.</h3><p>Your room, family, budget and priorities come first.</p></div>
               <div><span>02</span><h3>Understand the options.</h3><p>Compare meaningful specifications without jargon overload.</p></div>
               <div><span>03</span><h3>Talk to your local store.</h3><p>Confirm current prices, availability, service and installation.</p></div>
@@ -218,7 +243,7 @@ export default function App() {
 
         <section className="section finder-section" id="finder">
           <div className="layout finder-layout">
-            <div className="finder-intro"><span className="kicker">02 / YOUR BUYING ASSISTANT</span><h2>Find your fit.<br/><em>Before the fit-out.</em></h2><p>Three practical starting points to make your next showroom conversation more useful.</p><div className="finder-note"><span>NOTE / 01</span> These are indicative shopping guidelines, not a site survey, engineering specification, or professional installation assessment.</div></div>
+            <div className="finder-intro" data-reveal><span className="kicker">02 / YOUR BUYING ASSISTANT</span><h2>Find your fit.<br/><em>Before the fit-out.</em></h2><p>Three practical starting points to make your next showroom conversation more useful.</p><div className="finder-note"><span>NOTE / 01</span> These are indicative shopping guidelines, not a site survey, engineering specification, or professional installation assessment.</div></div>
             <div className="finder-tool">
               <div className="finder-tabs" role="tablist" aria-label="Product finder">
                 <button role="tab" aria-selected={finder === 'ac'} className={finder === 'ac' ? 'is-active' : ''} onClick={() => setFinder('ac')}>Air conditioning</button>
@@ -252,7 +277,7 @@ export default function App() {
 
         <section className="review-band" id="offer-review">
           <div className="layout review-layout">
-            <div className="review-copy"><span className="kicker kicker--light">04 / ONLINE OFFER REVIEW</span><h2>Found an offer<br/>worth comparing?</h2><p>Share the model and listed price. Ask the showroom for its current quote. Price matching is subject to store confirmation, not guaranteed.</p><div className="review-steps"><span>01 / NAME THE MODEL</span><span>02 / SHARE THE LISTING</span><span>03 / REQUEST A STORE QUOTE</span></div></div>
+            <div className="review-copy" data-reveal><span className="kicker kicker--light">04 / ONLINE OFFER REVIEW</span><h2>Found an offer<br/>worth comparing?</h2><p>Share the model and listed price. Ask the showroom for its current quote. Price matching is subject to store confirmation, not guaranteed.</p><div className="review-steps"><span>01 / NAME THE MODEL</span><span>02 / SHARE THE LISTING</span><span>03 / REQUEST A STORE QUOTE</span></div></div>
             <form className="review-form" onSubmit={submitMatch} noValidate><span className="form-topline">REQUEST A PRICE REVIEW <span>01 — 03</span></span><div className="form-field"><label htmlFor="match-model">Exact model or product name</label><input id="match-model" maxLength={100} placeholder="e.g. 1.5 ton inverter split AC" value={matchModel} onChange={event => setMatchModel(event.target.value)} required/></div><div className="form-grid"><div className="form-field"><label htmlFor="match-price">Online price seen (₹)</label><input id="match-price" type="number" inputMode="decimal" min="1" max="10000000" placeholder="49990" value={matchPrice} onChange={event => setMatchPrice(event.target.value)} required/></div><div className="form-field"><label htmlFor="match-platform">Listing platform</label><select id="match-platform" value={matchPlatform} onChange={event => setMatchPlatform(event.target.value)}><option>Amazon</option><option>Flipkart</option><option>Brand website</option><option>Other</option></select></div></div><div className="form-field"><label htmlFor="match-phone">Your mobile number</label><input id="match-phone" type="tel" inputMode="numeric" autoComplete="tel-national" pattern="[6-9][0-9]{9}" maxLength={10} placeholder="10-digit Indian mobile" value={matchPhone} onChange={event => setMatchPhone(event.target.value.replace(/[^0-9]/g, ''))} required/></div>{matchError && <p role="alert" className="form-error">{matchError}</p>}<button className="button button--primary review-submit" type="submit">Prepare my enquiry <Arrow /></button><p className="form-privacy">No details are sent to a server by this form. You choose how to contact the store in the next step.</p></form>
           </div>
         </section>
@@ -262,7 +287,7 @@ export default function App() {
             <div className="section-heading section-heading--split"><div><span className="kicker">05 / VISIT ANSHDEEP</span><h2>Online discovery.<br/><em>Real-world confidence.</em></h2></div><p>See products in person and confirm availability, finance, delivery and installation details with the team before placing an order.</p></div>
             <div className="showroom-shell">
               <div className="showroom-map" aria-hidden="true"><div className="map-road map-road--a"/><div className="map-road map-road--b"/><div className="map-road map-road--c"/><div className="map-city">RAJNANDGAON <span>CHHATTISGARH · 491441</span></div><span className="map-pin map-pin--vip">01</span><span className="map-pin map-pin--ge">02</span><span className="map-caption">LOCAL SHOWROOM GUIDE / SCHEMATIC, NOT NAVIGATION</span></div>
-              <div className="showroom-details"><div className="location-tabs" role="group" aria-label="Select showroom location"><button aria-pressed={branch === 'vip'} className={branch === 'vip' ? 'is-active' : ''} onClick={() => setBranch('vip')}>01 / VIP Road</button><button aria-pressed={branch === 'ge'} className={branch === 'ge' ? 'is-active' : ''} onClick={() => setBranch('ge')}>02 / GE Road</button></div><span className="address-label">RAJNANDGAON · CHHATTISGARH</span><h3>{selectedBranch.label}</h3><p>{selectedBranch.address}</p><div className="showroom-actions"><a className="button button--dark" href={mapUrl(selectedBranch.address)} target="_blank" rel="noopener noreferrer">Open Google Maps <Arrow diagonal /></a><a className="button button--outline" href={'tel:' + store.phone}>Call showroom <Arrow /></a></div><p className="showroom-note">Hours and availability can change. Call ahead before visiting.</p><div className="listed-badge"><span aria-hidden="true">✓</span> Location cross-checked against manufacturer dealer directories</div></div>
+              <div className="showroom-details" data-reveal><div className="location-tabs" role="group" aria-label="Select showroom location"><button aria-pressed={branch === 'vip'} className={branch === 'vip' ? 'is-active' : ''} onClick={() => setBranch('vip')}>01 / VIP Road</button><button aria-pressed={branch === 'ge'} className={branch === 'ge' ? 'is-active' : ''} onClick={() => setBranch('ge')}>02 / GE Road</button></div><span className="address-label">RAJNANDGAON · CHHATTISGARH</span><h3>{selectedBranch.label}</h3><p>{selectedBranch.address}</p><div className="showroom-actions"><a className="button button--dark" href={mapUrl(selectedBranch.address)} target="_blank" rel="noopener noreferrer">Open Google Maps <Arrow diagonal /></a><a className="button button--outline" href={'tel:' + store.phone}>Call showroom <Arrow /></a></div><p className="showroom-note">Hours and availability can change. Call ahead before visiting.</p><div className="listed-badge"><span aria-hidden="true">✓</span> Location cross-checked against manufacturer dealer directories</div></div>
             </div>
           </div>
         </section>
@@ -271,6 +296,12 @@ export default function App() {
 
       <footer className="site-footer"><div className="layout footer-main"><div><a href="#top" className="footer-wordmark">ANSHDEEP <span>ELECTRONICS</span></a><p>Good technology. Better decisions.<br/>Rajnandgaon, Chhattisgarh.</p></div><div><span>EXPLORE</span><a href="#catalog">Collections</a><a href="#finder">Buying assistant</a><a href="#finance">Financing guide</a></div><div><span>GET IN TOUCH</span><a href={'tel:' + store.phone}>{store.phoneLabel}</a><a href={mapUrl(store.branches[0].address)} target="_blank" rel="noopener noreferrer">VIP Road directions</a><a href={mapUrl(store.branches[1].address)} target="_blank" rel="noopener noreferrer">GE Road directions</a></div><div><span>REFERENCE</span><a href={store.references.daikin} target="_blank" rel="noopener noreferrer">Dealer location source <Arrow diagonal /></a><a href={store.references.ifb} target="_blank" rel="noopener noreferrer">IFB listing <Arrow diagonal /></a></div></div><div className="layout footer-bottom"><span>© {new Date().getFullYear()} ANSHDEEP ELECTRONICS</span><span>Independent showroom site · Availability, prices and offers require confirmation.</span><a href="#top">BACK TO TOP ↑</a></div></footer>
 
+      {mobileEnquiryVisible && selected.length === 0 && !quoteOpen && !compareOpen &&
+        <div className="mobile-enquiry-bar" role="region" aria-label="Quick showroom enquiry">
+          <div><strong>Need a local quote?</strong><small>Talk to the Rajnandgaon showroom</small></div>
+          <button type="button" onClick={() => openQuote('Hello Anshdeep Electronics, please help me with a showroom quote and available options.')}>Ask the store <Arrow /></button>
+        </div>
+      }
       {selected.length > 0 && !compareOpen && !quoteOpen && <div className="compare-dock" role="status"><div><strong>{selected.length} / 3</strong><span>Added to your shortlist</span></div><div className="dock-actions"><button onClick={() => setShortlist([])}>Clear</button><button className="button button--dark" onClick={() => setCompareOpen(true)}>Review shortlist <Arrow /></button></div></div>}
       {compareOpen && <div className="overlay" onMouseDown={event => {if (event.target === event.currentTarget) closeCompare();}}><div className="modal compare-modal" role="dialog" aria-modal="true" aria-labelledby="compare-title" ref={compareRef}><div className="modal-top"><span>YOUR SHORTLIST / UP TO 3</span><button className="close-button" aria-label="Close shortlist" onClick={closeCompare}>×</button></div><h2 id="compare-title">What matters when you compare.</h2><p>Without live model and pricing data, we compare the questions to ask rather than inventing specifications.</p><div className="compare-columns">{selected.map(item => <div className="compare-column" key={item.id}><span>{item.category}</span><h3>{item.title}</h3><ul>{item.compareOn.map(point => <li key={point}>{point}</li>)}</ul><button onClick={() => toggleShortlist(item.id)}>Remove from list ×</button></div>)}</div><button className="button button--primary" onClick={shortlistRequest}>Request a combined quote <Arrow /></button></div></div>}
       {quoteOpen && <div className="overlay" onMouseDown={event => { if (event.target === event.currentTarget) closeQuote(); }}><div role="dialog" aria-modal="true" aria-labelledby="quote-title" className="quote-panel" ref={quoteRef}><div className="modal-top"><span>YOUR ENQUIRY / ANSHDEEP ELECTRONICS</span><button className="close-button" aria-label="Close enquiry" onClick={closeQuote}>×</button></div><span className="kicker">DIRECT TO YOUR LOCAL SHOWROOM</span><h2 id="quote-title">Ready to ask?</h2><p className="quote-intro">Review your request below, then choose how to contact the store. This site does not send your details automatically.</p><label htmlFor="quote-message">Your message</label><textarea id="quote-message" rows={7} maxLength={1500} value={quote} onChange={event => setQuote(event.target.value)}></textarea><div className="quote-actions">{whatsappHref && <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="button button--primary">Open WhatsApp <Arrow diagonal /></a>}<a className="button button--dark" href={'tel:' + store.phone}>Call {store.phoneLabel} <Arrow diagonal /></a><button className="button button--outline" onClick={copyEnquiry}>Copy message <Arrow /></button><a className="button button--text" href={'mailto:' + store.email + '?subject=' + encodeURIComponent('Showroom product enquiry') + '&body=' + encodeURIComponent(quote)}>Use email <Arrow diagonal /></a></div>{!whatsappHref && <p className="quote-note">Store WhatsApp Business number has not been confirmed. Calling, emailing or copying the message is available now.</p>}{copyStatus && <p className="copy-status" role="status">{copyStatus}</p>}</div></div>}
