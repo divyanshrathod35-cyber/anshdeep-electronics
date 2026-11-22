@@ -112,7 +112,7 @@ test('WCAG 2.2 A/AA automated audit of homepage and enquiry dialog', async ({ pa
 
 test('critical hero photograph is discoverable before React hydration', async ({ page }) => {
   await page.goto('/');
-  const preload = page.locator('link[rel="preload"][as="image"]');
+  const preload = page.locator('head > link[rel="preload"][as="image"]');
   await expect(preload).toHaveAttribute('href','/editorial/14512055.jpg');
   await expect(preload).toHaveAttribute('fetchpriority','high');
 });
