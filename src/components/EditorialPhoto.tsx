@@ -40,8 +40,8 @@ export function EditorialPhoto({ kind, hero = false }: { kind: Artwork; hero?: b
           alt={photo.description}
           width={1200}
           height={864}
-          loading={hero ? 'eager' : 'lazy'}
-          fetchPriority={hero ? 'high' : 'auto'}
+          loading="lazy"
+          fetchPriority="auto"
           decoding="async"
           style={{ objectPosition: photo.position }}
           onLoad={() => setLoaded(true)}
