@@ -27,9 +27,6 @@
     "@axe-core/playwright": "^4.11.0",
     "chrome-launcher": "^1.2.1",
     "lighthouse": "^12.8.2",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.17",
     "typescript": "~5.8.3",
     "vite": "^6.3.5"
   }

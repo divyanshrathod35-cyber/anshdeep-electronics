@@ -129,3 +129,9 @@ The first verified pre-rendered version achieved **98 mobile Lighthouse performa
 5. Official awards require an actual external submission and judging outcome. Do not display award badges, fabricate jury scores or claim that ANSHDEEP has already won.
 
 **Draft PR stays open. No production release or merge was authorized.**
+
+## Mobile-first rendering audit addendum
+
+Baymard's Electronics & Office 2026 research (https://baymard.com/research/electronics-and-office) emphasizes fast, comprehensible spec-heavy discovery and comparison for both expert and novice shoppers. Google's Modern Web Guidance (https://developer.chrome.com/docs/modern-web-guidance/guides/performance/performance) recommends rendering only the visible initial section and carefully skipping offscreen work using `content-visibility: auto`. Fontsource's variable-font Vite documentation (https://fontsource.org/docs/guides/vite) notes that variable `wght.css` imports emit one file for each script subset; English copy can use the `latin-wght.css` subset directly.
+
+This update eliminates unused generated Tailwind CSS, loads only Latin subsets of the three approved local variable fonts, and applies offscreen layout containment to long lower chapters, preserving accessible DOM and real static HTML. The hero now supports horizontal touch swipes without hijacking vertical page scroll and retains labelled controls.

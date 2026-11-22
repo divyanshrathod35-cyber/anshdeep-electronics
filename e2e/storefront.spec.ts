@@ -172,3 +172,29 @@ test('robots.txt is served as crawl policy rather than an SPA HTML fallback', as
   expect(text).toContain('Allow: /');
   expect(text).not.toContain('<!doctype html>');
 });
+
+test('touch users can change hero chapters without breaking vertically scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/');
+  const stage = page.locator('.hero-image-stage');
+  await stage.scrollIntoViewIfNeeded();
+  const box = await stage.boundingBox();
+  expect(box).not.toBeNull();
+  if (!box) return;
+  const x = box.x + box.width * .75;
+  const y = box.y + box.height * .45;
+  await page.dispatchEvent('.hero-image-stage', 'touchstart', {
+    touches: [{ clientX: x, clientY: y }],
+  });
+  await page.dispatchEvent('.hero-image-stage', 'touchend', {
+    changedTouches: [{ clientX: x - 115, clientY: y + 5 }],
+  });
+  await expect(page.getByText('Made for everyday living.')).toBeVisible();
+  await page.dispatchEvent('.hero-image-stage', 'touchstart', {
+    touches: [{ clientX: x, clientY: y }],
+  });
+  await page.dispatchEvent('.hero-image-stage', 'touchend', {
+    changedTouches: [{ clientX: x - 4, clientY: y - 90 }],
+  });
+  await expect(page.getByText('Made for everyday living.')).toBeVisible();
+});

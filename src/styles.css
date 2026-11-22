@@ -1,7 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+/* Purpose-built minimal reset. No utility CSS framework is injected. */
+html { -webkit-text-size-adjust: 100%; }
+h1,h2,h3,h4,h5,h6 { font-weight: inherit; }
+button,input,select,textarea { font: inherit; }
+img,svg,video { display: block; }
 :root {
   font-family: 'DM Sans Variable', 'Segoe UI', sans-serif;
   color: #0F172A;
@@ -534,6 +535,21 @@ p { line-height: 1.65; }
 /* Image-independent caption legibility: opaque black, no unreliable image-shadow contrast. */
 .product-index,.product-image-label { background: #0B0F19; color: #FFFFFF; text-shadow: none; padding: 5px 8px; }
 
+/* Offscreen chapters remain searchable and in the accessibility tree.
+   Browser skips painting until a chapter approaches the viewport. */
+@supports (content-visibility: auto) {
+  .feature-interlude,
+  .finder-section,
+  .finance-section,
+  .review-band,
+  .visit-section,
+  .closing-banner,
+  .site-footer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 750px;
+  }
+}
+.hero-image-stage { touch-action: pan-y; }
 /* Editorial product selector: the active product becomes a useful route to the catalogue. */
 .stage-explore {
   align-self: flex-start;

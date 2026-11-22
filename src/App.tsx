@@ -70,6 +70,29 @@ export default function App() {
     };
   }, []);
   const [heroChoice, setHeroChoice] = useState<HeroChoice>('viewing');
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const advanceHero = (direction: number) => {
+    setHeroChoice(current => {
+      const index = heroOptions.findIndex(choice => choice.id === current);
+      return heroOptions[(index + direction + heroOptions.length) % heroOptions.length].id;
+    });
+  };
+  const handleHeroTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    const point = event.touches[0];
+    if (point) touchStart.current = { x: point.clientX, y: point.clientY };
+  };
+  const handleHeroTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    const start = touchStart.current;
+    const point = event.changedTouches[0];
+    touchStart.current = null;
+    if (!start || !point) return;
+    const dx = point.clientX - start.x;
+    const dy = point.clientY - start.y;
+    // Respect vertical scrolling. Only deliberate horizontal swipes change chapters.
+    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+      advanceHero(dx < 0 ? 1 : -1);
+    }
+  };
   const [activeCategory, setActiveCategory] = useState<Category>('All');
   const [search, setSearch] = useState('');
   const [shortlist, setShortlist] = useState<string[]>([]);
@@ -184,7 +207,7 @@ export default function App() {
               </div>
             </div>
             <div className="hero-visual">
-              <div className="hero-image-stage">
+              <div className="hero-image-stage" onTouchStart={handleHeroTouchStart} onTouchEnd={handleHeroTouchEnd}>
                 <span className="stage-coordinate">A / 01</span>
                 <span className="stage-vertical">THE SHOWROOM EDIT · 2026</span>
                 <div className="stage-display" key={activeHero.id}>
