@@ -14,22 +14,24 @@ type EditorialPhoto = {
   page: string;
   photographer: string;
   position: string;
+  extension?: 'jpeg' | 'png';
 };
 
 export const photos: Record<Artwork, EditorialPhoto> = {
   ac: {
-    id: 16914846,
-    description: 'Wall-mounted air conditioning equipment against a building exterior',
-    page: 'https://www.pexels.com/photo/air-conditioner-at-the-buildings-corner-16914846/',
-    photographer: 'Mak_ jp',
-    position: 'center 43%',
+    id: 38788452,
+    description: 'Contemporary wall-mounted split air conditioning unit indoors',
+    page: 'https://www.pexels.com/photo/wall-mounted-air-conditioner-in-modern-interior-38788452/',
+    photographer: 'NEOSiAM 18+',
+    position: 'center 38%',
   },
   tv: {
-    id: 7587865,
-    description: 'A modern room featuring a wall-mounted flat-screen television',
-    page: 'https://www.pexels.com/photo/a-spacious-living-room-with-couch-and-flat-screen-television-on-the-wall-7587865/',
-    photographer: 'Max Vakhtbovych',
-    position: 'center 47%',
+    id: 14512055,
+    description: 'Large flat-screen television in a refined modern living room',
+    page: 'https://www.pexels.com/photo/living-room-with-a-large-tv-screen-and-wooden-cupboard-14512055/',
+    photographer: 'SCENE DESIGN',
+    position: 'center 48%',
+    extension: 'png',
   },
   phone: {
     id: 9403822,
@@ -76,5 +78,6 @@ export const photos: Record<Artwork, EditorialPhoto> = {
 };
 
 export function editorialUrl(id: number, width: number): string {
-  return `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=${width}&h=${Math.round(width * 0.72)}&fit=crop`;
+  const extension = Object.values(photos).find(photo => photo.id === id)?.extension || 'jpeg';
+  return `https://images.pexels.com/photos/${id}/pexels-photo-${id}.${extension}?auto=compress&cs=tinysrgb&w=${width}&h=${Math.round(width * 0.72)}&fit=crop&fm=jpg`;
 }
