@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { EditorialPhoto } from './components/EditorialPhoto';
 import { categories, filterInterests, interests, type Category, type Interest, type Artwork } from './data/catalog';
+import { publicProducts, verifiedProducts } from './data/verifiedProducts';
 import { store, mapUrl } from './config/storeConfig';
 import { emiIllustration, indianRupees, isIndianMobile, safeMessage, suggestAc, suggestLaundry, suggestTv, whatsappUrl, type Exposure } from './lib/shopping';
 
@@ -76,6 +77,7 @@ export default function App() {
   const laundry = suggestLaundry(family);
   const emi = emiIllustration(price, downPayment, exchangeEstimate, tenure);
   const selectedBranch = store.branches.find(item => item.id === branch)!;
+  const approvedProducts = publicProducts(verifiedProducts);
   const whatsappHref = whatsappUrl(store.whatsappNumber, quote);
   const closeQuote = () => setQuoteOpen(false);
   const closeCompare = () => setCompareOpen(false);
@@ -187,6 +189,18 @@ export default function App() {
               </article>
             ))}</div> : <div className="empty-state"><h3>No matching collections.</h3><p>Try a different brand or category.</p><button className="action-link" onClick={() => {setSearch('');setActiveCategory('All');}}>Reset filters <Arrow /></button></div>}
             <div className="catalog-caption"><span>SELECTED FOR THE WAY YOU SHOP</span><p>Editorial photographs and brand examples are for buying guidance only, not live models or verified stock.</p></div>
+            {approvedProducts.length > 0 && <section className="approved-catalog" aria-label="Store-verified products">
+              <div className="approved-catalog-head"><span className="kicker">STORE-APPROVED MODELS</span><h3>Current showroom selections</h3><p>Availability is checked separately for each listed model. Ask the team to confirm before travelling.</p></div>
+              <div className="approved-catalog-grid">{approvedProducts.map(model => <article key={model.sku} className="approved-product">
+                <span className="approved-product-type">{model.brand} / {model.category}</span>
+                {model.imagePath && <img src={model.imagePath} width="440" height="330" loading="lazy" alt={model.displayName} />}
+                <h4>{model.displayName}</h4>
+                <ul>{model.specifications.map(spec => <li key={spec}>{spec}</li>)}</ul>
+                <span className="approved-product-price">{model.priceInr !== undefined ? indianRupees(model.priceInr) : 'Ask for current price'}</span>
+                <small>{model.availability === 'confirmed_in_stock' ? 'Store confirmed today · call before visiting' : 'Availability on request'}</small>
+                <button className="action-link" onClick={() => openQuote('Hello Anshdeep Electronics, could you confirm price and availability for ' + model.brand + ' ' + model.displayName + ' (SKU ' + model.sku + ')?')}>Enquire about this model <Arrow /></button>
+              </article>)}</div>
+            </section>}
           </div>
         </section>
 
