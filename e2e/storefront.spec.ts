@@ -183,18 +183,22 @@ test('touch users can change hero chapters without breaking vertically scrolling
   if (!box) return;
   const x = box.x + box.width * .75;
   const y = box.y + box.height * .45;
-  await page.dispatchEvent('.hero-image-stage', 'touchstart', {
-    touches: [{ clientX: x, clientY: y }],
-  });
-  await page.dispatchEvent('.hero-image-stage', 'touchend', {
-    changedTouches: [{ clientX: x - 115, clientY: y + 5 }],
-  });
+  await stage.evaluate((el, point) => {
+    const start = new Event('touchstart', { bubbles: true });
+    Object.defineProperty(start, 'touches', { value: [{ clientX: point.x, clientY: point.y }] });
+    el.dispatchEvent(start);
+    const end = new Event('touchend', { bubbles: true });
+    Object.defineProperty(end, 'changedTouches', { value: [{ clientX: point.x - 115, clientY: point.y + 5 }] });
+    el.dispatchEvent(end);
+  }, { x, y });
   await expect(page.getByText('Made for everyday living.')).toBeVisible();
-  await page.dispatchEvent('.hero-image-stage', 'touchstart', {
-    touches: [{ clientX: x, clientY: y }],
-  });
-  await page.dispatchEvent('.hero-image-stage', 'touchend', {
-    changedTouches: [{ clientX: x - 4, clientY: y - 90 }],
-  });
+  await stage.evaluate((el, point) => {
+    const start = new Event('touchstart', { bubbles: true });
+    Object.defineProperty(start, 'touches', { value: [{ clientX: point.x, clientY: point.y }] });
+    el.dispatchEvent(start);
+    const end = new Event('touchend', { bubbles: true });
+    Object.defineProperty(end, 'changedTouches', { value: [{ clientX: point.x - 4, clientY: point.y - 90 }] });
+    el.dispatchEvent(end);
+  }, { x, y });
   await expect(page.getByText('Made for everyday living.')).toBeVisible();
 });

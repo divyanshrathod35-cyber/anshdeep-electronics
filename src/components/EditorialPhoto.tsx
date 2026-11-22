@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Artwork } from '../data/catalog';
 import { editorialUrl, photos } from '../data/editorialImages';
 import { ProductArt } from './ProductArt';
@@ -11,6 +11,7 @@ export function EditorialPhoto({ kind, hero = false }: { kind: Artwork; hero?: b
   const photo = photos[kind];
   const [source, setSource] = useState<'local' | 'cdn' | 'illustration'>('local');
   const [loaded, setLoaded] = useState(false);
+  const imageRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => { setSource('local'); setLoaded(false); }, [kind]);
 
@@ -18,6 +19,16 @@ export function EditorialPhoto({ kind, hero = false }: { kind: Artwork; hero?: b
     setLoaded(false);
     setSource(current => current === 'local' ? 'cdn' : 'illustration');
   };
+
+  // Static HTML may fetch or fail an image before React hydrates. An already
+  // completed <img> does not replay its load/error event at hydration time.
+  // Inspect it after mount so cached failures still advance through fallbacks.
+  useEffect(() => {
+    const image = imageRef.current;
+    if (!image || !image.complete) return;
+    if (image.naturalWidth > 0) setLoaded(true);
+    else handleError();
+  }, [kind, source]);
 
   const src = source === 'local'
     ? '/editorial/' + photo.id + '.jpg'
@@ -32,6 +43,7 @@ export function EditorialPhoto({ kind, hero = false }: { kind: Artwork; hero?: b
       {source !== 'illustration' && (
         <img
           key={photo.id + '-' + source}
+          ref={imageRef}
           className="editorial-photo"
           src={src}
           srcSet={source === 'cdn' ? (
