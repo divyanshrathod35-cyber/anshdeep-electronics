@@ -1,0 +1,38 @@
+name: Pin approved editorial sources
+on:
+  push:
+    branches:
+      - feat/flagship-storefront-2026
+    paths:
+      - 'src/data/editorialImages.ts'
+      - 'scripts/sync-editorial-assets.mjs'
+      - '.github/workflows/sync-editorial-assets.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  pin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Download and validate licensed photos
+        run: node --experimental-strip-types scripts/sync-editorial-assets.mjs
+      - name: Commit optimized image bytes to review branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/editorial/
+          if git diff --cached --quiet; then
+            echo 'Editorial images already up to date'
+          else
+            git commit -m 'assets: pin and self-host licensed editorial photographs'
+            git pull --rebase origin feat/flagship-storefront-2026
+            git push origin HEAD:feat/flagship-storefront-2026
+          fi
