@@ -144,3 +144,15 @@ test('hero selector advances to the chosen product category after hydration', as
   await expect(page.locator('.product-card')).toHaveCount(1);
   expect(consoleErrors).toEqual([]);
 });
+
+test('enquiry dialog restores keyboard focus to its originating control', async ({ page }) => {
+  await page.goto('/');
+  const trigger = page.getByRole('button', { name: /Ask for a showroom quote/i });
+  await trigger.focus();
+  await trigger.click();
+  const dialog = page.getByRole('dialog', { name: 'Ready to ask?' });
+  await expect(dialog).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(trigger).toBeFocused();
+});

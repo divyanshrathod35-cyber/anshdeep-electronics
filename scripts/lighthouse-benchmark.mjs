@@ -70,6 +70,11 @@ try {
       tbtMs: metric('total-blocking-time'),
       fcpMs: metric('first-contentful-paint'),
     };
+    const seoWeaknesses = (run.lhr.categories.seo?.auditRefs || [])
+      .map(ref => ({ id: ref.id, weight: ref.weight ?? 0, audit: run.lhr.audits[ref.id] }))
+      .filter(item => item.weight > 0 && item.audit?.score !== null && item.audit?.score < 1)
+      .map(item => ({ id: item.id, score: item.audit.score, title: item.audit.title }));
+    console.log(variant.name.toUpperCase() + ' SEO ISSUES ' + JSON.stringify(seoWeaknesses));
     await writeFile('quality-reports/lighthouse-' + variant.name + '.json', run.report);
     console.log(variant.name.toUpperCase() + ' LAB METRICS ' + JSON.stringify(results.variants[variant.name]));
     console.log(variant.name.toUpperCase() + ' LAB DIAGNOSTIC ' + JSON.stringify({

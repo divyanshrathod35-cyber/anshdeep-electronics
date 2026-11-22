@@ -76,3 +76,13 @@ The follow-up change self-hosts variable DM Sans, Space Grotesk and JetBrains Mo
 The official-desktop-calibrated run with self-hosted variable fonts (before the mobile hero-preload adjustment) measured Lighthouse **99 desktop performance** and **83 mobile performance**. Refer to https://github.com/divyanshrathod35-cyber/anshdeep-electronics/actions/runs/44978322701 . A subsequent run with a hero-photo preload measured **99 desktop / 82 mobile**, indicating that eager photo fetching alone did not improve the mobile critical path: https://github.com/divyanshrathod35-cyber/anshdeep-electronics/actions/runs/44978569038 .
 
 To avoid loading a largely below-the-fold editorial photograph before the mobile hero copy, the image preload is now constrained to screens >=701px. A Vite build-time HTML transform injects the hashed Space Grotesk Latin WOFF2 font URL as a same-origin critical font preload, so the browser discovers the display typeface earlier. This is an optimization hypothesis pending the next CI measurement, not an invented speed gain.
+
+## Award-caliber retail reference update — 22 November 2026
+
+Primary award records, not cloned layouts:
+- Quiet Cubes — CSS Design Awards Special Kudos (29 July 2026), judges' final score 7.68; award description highlights seamless transitions, 3D, and custom configuration: https://www.cssdesignawards.com/sites/quiet-cubes/49850/ . The transferable principle is a high-value product configuration journey, not copying its 3D effects.
+- LEDUP — CSS Design Awards Special Kudos (23 September 2026), final judge score 7.79; restrained product/light narrative: https://cssdesignawards.com/sites/ledup/50200/ . The transferable principle is focused visual hierarchy and disciplined transitions.
+- Baymard 2026 mobile commerce research: https://baymard.com/research-articles/mobile-ux-ecommerce . A product list should avoid unnecessary duplicated variants, buried filters, or misleading categorization.
+- Chrome LCP guide: https://web.dev/articles/optimize-lcp/ . Early HTML rendering and avoiding render-blocking CSS/JS directly informs the ANSHDEEP static pre-rendering architecture.
+
+Implementation after research: preserve the bespoke local showroom identity, replace the three boxed hero buttons with an editorial chapter index, connect the chosen chapter to filtered product discovery, and preserve keyboard semantics. The same React tree is statically rendered at build time and hydrated in the browser; the initial HTML contains genuine product categories and navigation, reducing mobile LCP while retaining app interactivity. Do not claim awards until external juries provide them.
