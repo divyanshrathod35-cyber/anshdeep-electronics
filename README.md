@@ -12,7 +12,7 @@ Research-led, enquiry-first website for the Anshdeep Electronics showroom in Raj
 
 ## Stack
 
-React 19, TypeScript, Vite 6, Tailwind 3 with custom design tokens and stylesheet; no external backend or analytics. Product data and store locations live in the source, making the proof-of-concept easy to hand over.
+React 19, TypeScript, Vite 6, Tailwind 3 with custom design tokens and stylesheet; no external backend or analytics. **The production build statically renders the actual React storefront into HTML and hydrates it in the browser**, so first-viewport content and core catalogue information are readable even without JavaScript. Product data and store locations live in the source, making the proof-of-concept easy to hand over.
 
 ## Run
 
