@@ -59,6 +59,7 @@ test('mobile menu opens and closes without hiding navigation', async ({ page }) 
 });
 
 test('licensed editorial image falls back to the original vector if image CDN is unavailable', async ({ page }) => {
+  await page.route('**/editorial/*.jpg', route => route.abort());
   await page.route('https://images.pexels.com/**', route => route.abort());
   await page.goto('/');
   await expect(page.locator('.editorial-frame--hero svg')).toBeVisible();
