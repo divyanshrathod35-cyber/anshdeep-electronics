@@ -57,3 +57,11 @@ test('mobile menu opens and closes without hiding navigation', async ({ page }) 
   await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeHidden();
   await expect(page).toHaveURL(/#finder$/);
 });
+
+test('licensed editorial image falls back to the original vector if image CDN is unavailable', async ({ page }) => {
+  await page.route('https://images.pexels.com/**', route => route.abort());
+  await page.goto('/');
+  await expect(page.locator('.editorial-frame--hero svg')).toBeVisible();
+  await expect(page.locator('.product-card').first().locator('.editorial-frame svg')).toBeVisible();
+  await expect(page.getByText('Current showroom selections')).toHaveCount(0);
+});
