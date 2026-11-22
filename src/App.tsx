@@ -157,7 +157,7 @@ export default function App() {
                 <div className="stage-display" key={activeHero.id}>
                   <EditorialPhoto kind={activeHero.art} hero />
                 </div>
-                <div className="stage-info"><span>SELECTED INTEREST</span><strong>{activeHero.title}</strong><p>{activeHero.text}</p></div>
+                <div className="stage-info" aria-live="polite"><span>SELECTED INTEREST</span><strong>{activeHero.title}</strong><p>{activeHero.text}</p></div>
               </div>
               <div className="hero-switcher" role="group" aria-label="Explore product families">
                 {heroOptions.map((item, index) => <button type="button" key={item.id} className={heroChoice === item.id ? 'is-active' : ''} aria-pressed={heroChoice === item.id} onClick={() => setHeroChoice(item.id)}><small>0{index+1}</small><span>{item.label}</span><Arrow /></button>)}
@@ -197,7 +197,7 @@ export default function App() {
                 <h4>{model.displayName}</h4>
                 <ul>{model.specifications.map(spec => <li key={spec}>{spec}</li>)}</ul>
                 <span className="approved-product-price">{model.priceInr !== undefined ? indianRupees(model.priceInr) : 'Ask for current price'}</span>
-                <small>{model.availability === 'confirmed_in_stock' ? 'Store confirmed today · call before visiting' : 'Availability on request'}</small>
+                <small>{model.availability === 'confirmed_in_stock' ? 'Recently confirmed by store · call before visiting' : 'Availability on request'}</small>
                 <button className="action-link" onClick={() => openQuote('Hello Anshdeep Electronics, could you confirm price and availability for ' + model.brand + ' ' + model.displayName + ' (SKU ' + model.sku + ')?')}>Enquire about this model <Arrow /></button>
               </article>)}</div>
             </section>}
